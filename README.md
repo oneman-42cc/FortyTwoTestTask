@@ -3,6 +3,7 @@
 
 A Django 1.6+ project template
 
+This is my third test on 42cc.
 Use fortytwo_test_task.settings when deploying with getbarista.com
 
 ### Recomendations
