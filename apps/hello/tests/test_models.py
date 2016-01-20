@@ -5,6 +5,8 @@ from hello.models import Profile
 
 class ModelProfileTest(TestCase):
 
+    """Test to check model Profile."""
+
     fixtures = ["profiles_test.json"]
 
     def test_or_save_profile_to_database(self):
