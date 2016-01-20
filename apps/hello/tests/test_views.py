@@ -72,3 +72,18 @@ class HomePageTest(TestCase):
             response,
             dateparse.parse_date("2015-01-01"),
         )
+
+
+class RequestsPageTest(TestCase):
+
+    def setUp(self):
+        self.response = self.client.get(reverse("requests"))
+
+    def test_accessibility_and_template(self):
+
+        """This test checks whether available a home page and uses
+            a right template."""
+
+        self.assertEqual(self.response.status_code, 200)
+        with self.assertTemplateUsed("hello/requests.html"):
+            render_to_string("hello/requests.html")
