@@ -1,9 +1,11 @@
 {% load staticfiles %}
+{% load url from future %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>{% block title %}{% endblock title %}Site Name</title>
+        <title>{% block title %}{% endblock title %} - Site Name</title>
 
         <meta http-equiv="X-UA-Compatible" content="chrome=IE7" />
 
@@ -17,6 +19,14 @@
 
     </head>
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
-        {% block content %}{% endblock content %}
+        <div id="content">
+            <div class="inner">
+                {% block content %}{% endblock content %}
+            </div>
+            <div class="footer-push"></div>
+        </div>
+        <div id="footer">
+            {% block footer %}{% endblock footer %}
+        </div>
     </body>
 </html>
