@@ -67,12 +67,7 @@ p {
 }
 .profile > div {
     float: left;
-}
-.profile > div.left {
-    width: 30%;
-}
-.profile > div.right {
-    width: 70%;
+    width: 50%;
 }
 .profile > div p.head {
     margin: 0;
@@ -104,15 +99,55 @@ p {
     float: left;
     box-sizing: border-box;
 }
-.profile > div.left ul > li > p {
-    width: 42%
+.profile > div ul > li > p {
+    width: 25%
 }
-.profile > div.left ul > li > div {
-    width: 58%;
+.profile > div ul > li > div {
+    width: 75%;
 }
-.profile > div.right ul > li > p {
-    width: 20%
+
+/* Breadcrumbs styling. */
+ul.breadcrumbs {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+    float: right;
 }
-.profile > div.right ul > li > div {
-    width: 80%;
+ul.breadcrumbs > li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    font-size: 11px;
+}
+
+/* Tables styling. */
+table.rp {
+    border-spacing: 0px;
+    width: 100%;
+}
+table.rp th {
+    text-align: left;
+    text-transform: uppercase;
+    padding: 7px 15px;
+    background: rgb(0, 0, 0) none repeat scroll 0% 0%;
+    color: rgb(255, 255, 255);
+}
+table.rp tr.new {
+    color: #006600;
+}
+table.rp tr td {
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
+    padding: 7px 15px;
+}
+table.rp tr:last-child td {
+    border-bottom: 0px;
+}
+table.rp tr td:last-child {
+    border-right: 0px;
+}
+table.rp tr td:nth-child(even) {
+    text-align: justify;
 }

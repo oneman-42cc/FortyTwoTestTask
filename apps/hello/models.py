@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
@@ -21,3 +22,21 @@ class Profile(models.Model):
 
     bio = models.TextField(blank=True)
     contacts_other = models.TextField(blank=True)
+
+
+class Request(models.Model):
+
+    """Model Request use to store all http requests."""
+
+    class Meta:
+        app_label = "hello"
+        ordering = ["-date"]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    url = models.URLField()
+    date = models.DateTimeField(auto_now=True, auto_now_add=True)

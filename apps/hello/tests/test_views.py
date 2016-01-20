@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.utils import dateparse
+from django.utils import dateparse, simplejson
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from hello.models import Profile
@@ -72,3 +72,70 @@ class HomePageTest(TestCase):
             response,
             dateparse.parse_date("2015-01-01"),
         )
+
+
+class RequestsPageTest(TestCase):
+
+    fixtures = ["requests_test.json"]
+
+    def setUp(self):
+        self.response = self.client.get(reverse("requests"))
+
+    def test_accessibility_and_template(self):
+
+        """This test checks whether available a home page and uses
+            a right template."""
+
+        self.assertEqual(self.response.status_code, 200)
+        with self.assertTemplateUsed("hello/requests.html"):
+            render_to_string("hello/requests.html")
+
+    def test_check_number_items_in_context(self):
+
+        """Test to check a number of items sends to templte.
+            Must be 10."""
+
+        self.assertEqual(
+            self.response.context["object_list"].all().count(),
+            10,
+        )
+
+
+class RequestsAsyncPageTest(TestCase):
+
+    def test_accessibility(self):
+
+        """This test checks whether available a requests async page."""
+
+        # Send GET request.
+        response = self.client.get(reverse("requests-async"))
+        self.assertEqual(response.status_code, 403)
+        # Send POST request.
+        response = self.client.post(reverse("requests-async"))
+        self.assertEqual(response.status_code, 403)
+        # Send AJAX request.
+        response = self.client.post(
+            reverse("requests-async"),
+            {"numbernew": 0, "test": True},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_ajax_request(self):
+
+        """Test to check AJAX request."""
+
+        self.client.get(reverse("home"))
+
+        # Send AJAX request. Mandatory parameter for test requests
+        # is test=True. For detail see hello.views.RequestsAsyncView
+        response = self.client.post(
+            reverse("requests-async"),
+            {"numbernew": 0, "test": True},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        self.assertEqual(response["Content-Type"], "application/json")
+
+        data_ = simplejson.loads(response._container[0])
+        self.assertEqual(int(data_["requests_new"]), 1)
+        self.assertIsNotNone(data_["requests_list"])

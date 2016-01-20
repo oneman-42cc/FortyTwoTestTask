@@ -26,9 +26,9 @@
                         <p>Date of birth:</p>
                         <div>{{profile.birthday|date:"Y-m-d"}}</div>
                     </li>
-                    <li class="photo">
-                        <p>Photo:</p>
-                        <div></div>
+                    <li>
+                        <p>Bio:</p>
+                        <div>{{profile.bio|linebreaks}}</div>
                     </li>
                 </ul>
             </div>
@@ -51,10 +51,6 @@
                         <p>Other contacts:</p>
                         <div>{{profile.contacts_other|linebreaks}}</div>
                     </li>
-                    <li>
-                        <p>Bio:</p>
-                        <div>{{profile.bio|linebreaks}}</div>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -64,3 +60,7 @@
     {% endif %}
 
 {% endblock %}
+
+{% block footer %}
+    <a href="{% url 'requests' %}">HTTP requests</a>
+{% endblock footer %}

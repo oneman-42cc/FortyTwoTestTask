@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block body_id %}page-requests{% endblock %}
+
+{% block title %}HTTP requests{%endblock%}
+
+{% block content %}
+    
+    <h1>HTTP requests</h1>
+    <ul class="breadcrumbs">
+        <li>
+            <a href="{% url 'home' %}">Home</a>
+            <span class="separator">-></span>
+        </li>
+        <li>HTTP requests</li>
+    </ul>
+    <p>On this page present last 10 request.</p>
+
+    {% include "hello/request_list.html" %}
+
+{% endblock %}
+
+{% block footer %}
+    <a href="{% url 'requests' %}">HTTP requests</a>
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/requests.js' %}"></script>
+{% endblock footer %}
