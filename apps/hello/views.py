@@ -1,11 +1,12 @@
 import logging
-from django.views.generic import DetailView
+from django.shortcuts import render
+from django.views import generic
 from hello.models import Profile
 
 logger = logging.getLogger("django")
 
 
-class HomeView(DetailView):
+class HomeView(generic.DetailView):
 
     """A view for home page. Renders user's profile."""
 
@@ -29,3 +30,15 @@ class HomeView(DetailView):
         logger.debug(context)
 
         return context
+
+
+def requests_list_page(request):
+
+    """A view for http requests page. Renders a table with last 10
+        resuests and highliht as green new requests. As page is viewed
+        by user all requests ar considered as read.
+    """
+
+    context = {"object_list": {}}
+
+    return render(request, "hello/requests.html", context)

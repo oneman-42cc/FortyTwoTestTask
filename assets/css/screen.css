@@ -116,3 +116,19 @@ p {
 .profile > div.right ul > li > div {
     width: 80%;
 }
+
+/* Breadcrumbs styling. */
+ul.breadcrumbs {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+    float: right;
+}
+ul.breadcrumbs > li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    font-size: 11px;
+}
