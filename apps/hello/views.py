@@ -1,7 +1,6 @@
 import logging
-from django.shortcuts import render
 from django.views import generic
-from hello.models import Profile
+from hello.models import Profile, Request
 
 logger = logging.getLogger("django")
 
@@ -32,13 +31,21 @@ class HomeView(generic.DetailView):
         return context
 
 
-def requests_list_page(request):
+class RequestsListView(generic.list.ListView):
 
     """A view for http requests page. Renders a table with last 10
         resuests and highliht as green new requests. As page is viewed
         by user all requests ar considered as read.
     """
 
-    context = {"object_list": {}}
+    model = Request
+    template_name = "hello/requests.html"
+    queryset = Request.objects.all()[0:10]
 
-    return render(request, "hello/requests.html", context)
+    def get_context_data(self, **kwargs):
+
+        logger.debug(self.get_queryset())
+        context = super(RequestsListView, self).get_context_data(**kwargs)
+        logger.debug(context)
+
+        return context
