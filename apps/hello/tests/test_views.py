@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils import dateparse
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
-from hello.models import Profile
+from hello.models import Profile, Request
 
 
 class HomePageTest(TestCase):
@@ -76,6 +76,8 @@ class HomePageTest(TestCase):
 
 class RequestsPageTest(TestCase):
 
+    fixtures = ["requests_test.json"]
+
     def setUp(self):
         self.response = self.client.get(reverse("requests"))
 
@@ -87,3 +89,27 @@ class RequestsPageTest(TestCase):
         self.assertEqual(self.response.status_code, 200)
         with self.assertTemplateUsed("hello/requests.html"):
             render_to_string("hello/requests.html")
+
+    def test_present_message_when_no_requests(self):
+
+        """Test to check to present message on a page, when there is not
+            requests."""
+
+        # Remove all Profile object.
+        Request.objects.all().delete()
+        response = self.client.get(reverse("requests"))
+
+        self.assertContains(
+            response,
+            "There is not any requests yet.",
+        )
+
+    def test_check_number_items_in_context(self):
+
+        """Test to check a number of items sends to templte.
+            Must be 10."""
+
+        self.assertEqual(
+            self.response.context["object_list"].all().count(),
+            10,
+        )
