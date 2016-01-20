@@ -7,50 +7,60 @@
 {% block content %}
 
     <h1>42 Coffee Cups Test Assignment</h1>
+
+    {% if profile %}
     
-    <div class="profile">
-        <div class="left">
-            <p class="head"></p>
-            <ul>
-                <li>
-                    <p>Name:</p>
-                    <div>One</div>
-                </li>
-                <li>
-                    <p>Last name:</p>
-                    <div>Man</div>
-                </li>
-                <li>
-                    <p>Date of birth:</p>
-                    <div>2016-01-20</div>
-                </li>
-                <li>
-                    <p>Bio:</p>
-                    <div>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                </li>
-            </ul>
+        <div class="profile">
+            <div class="left">
+                <p class="head"></p>
+                <ul>
+                    <li>
+                        <p>Name:</p>
+                        <div>{{profile.first_name}}</div>
+                    </li>
+                    <li>
+                        <p>Last name:</p>
+                        <div>{{profile.last_name}}</div>
+                    </li>
+                    <li>
+                        <p>Date of birth:</p>
+                        <div>{{profile.birthday|date:"Y-m-d"}}</div>
+                    </li>
+                    <li class="photo">
+                        <p>Photo:</p>
+                        <div></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <p class="head">Contacts</p>
+                <ul>
+                    <li>
+                        <p>E-mail:</p>
+                        <div><a href="mailto:{{user.email}}">{{profile.email}}</a></div>
+                    </li>
+                    <li>
+                        <p>Jabber:</p>
+                        <div>{{profile.jabber}}</div>
+                    </li>
+                    <li>
+                        <p>Skype:</p>
+                        <div>{{profile.skype}}</div>
+                    </li>
+                    <li>
+                        <p>Other contacts:</p>
+                        <div>{{profile.contacts_other|linebreaks}}</div>
+                    </li>
+                    <li>
+                        <p>Bio:</p>
+                        <div>{{profile.bio|linebreaks}}</div>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="right">
-            <p class="head">Contacts</p>
-            <ul>
-                <li>
-                    <p>E-mail:</p>
-                    <div><a href="mailto:profile.email@test.com">profile.email@test.com</a></div>
-                </li>
-                <li>
-                    <p>Jabber:</p>
-                    <div>profile.jabber</div>
-                </li>
-                <li>
-                    <p>Skype:</p>
-                    <div>profile.skype</div>
-                </li>
-                <li>
-                    <p>Other contacts:</p>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                </li>
-            </ul>
-        </div>
-    </div>
+
+    {% else %}
+        <p>Sorry, I didn't fill out my cv. I'll do this in near future.</p>
+    {% endif %}
 
 {% endblock %}

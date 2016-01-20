@@ -3,6 +3,8 @@ from django.db import models
 
 class Profile(models.Model):
 
+    """Model Profile store profile data of user."""
+
     class Meta:
         app_label = "hello"
 
