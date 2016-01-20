@@ -26,6 +26,8 @@ class Profile(models.Model):
 
 class Request(models.Model):
 
+    """Model Request use to store all http requests."""
+
     class Meta:
         app_label = "hello"
         ordering = ["-date"]
