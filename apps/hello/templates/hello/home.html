@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block body_id %}page-home{% endblock %}
+
+{% block title %}42 Coffee Cups Test Assignment{%endblock%}
+
+{% block content %}
+
+    <h1>42 Coffee Cups Test Assignment</h1>
+
+    {% if profile %}
+    
+        <div class="profile">
+            <div class="left">
+                <p class="head"></p>
+                <ul>
+                    <li>
+                        <p>Name:</p>
+                        <div>{{profile.first_name}}</div>
+                    </li>
+                    <li>
+                        <p>Last name:</p>
+                        <div>{{profile.last_name}}</div>
+                    </li>
+                    <li>
+                        <p>Date of birth:</p>
+                        <div>{{profile.birthday|date:"Y-m-d"}}</div>
+                    </li>
+                    <li class="photo">
+                        <p>Photo:</p>
+                        <div></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <p class="head">Contacts</p>
+                <ul>
+                    <li>
+                        <p>E-mail:</p>
+                        <div><a href="mailto:{{user.email}}">{{profile.email}}</a></div>
+                    </li>
+                    <li>
+                        <p>Jabber:</p>
+                        <div>{{profile.jabber}}</div>
+                    </li>
+                    <li>
+                        <p>Skype:</p>
+                        <div>{{profile.skype}}</div>
+                    </li>
+                    <li>
+                        <p>Other contacts:</p>
+                        <div>{{profile.contacts_other|linebreaks}}</div>
+                    </li>
+                    <li>
+                        <p>Bio:</p>
+                        <div>{{profile.bio|linebreaks}}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    {% else %}
+        <p>Sorry, I didn't fill out my cv. I'll do this in near future.</p>
+    {% endif %}
+
+{% endblock %}

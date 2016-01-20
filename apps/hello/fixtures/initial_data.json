@@ -1,0 +1,34 @@
+[
+{
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "admin", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2016-01-04T12:49:42.200Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$ximupVLGbv3e$sUdNFRh/SD6yIHRPx6NEuXmtvubYV/Ez1rUZkyKMuNM=", 
+        "email": "admin@42cc.test", 
+        "date_joined": "2016-01-04T12:49:22.155Z"
+    }
+},
+{
+    "pk": 1, 
+    "model": "hello.profile", 
+    "fields": {
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\r\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 
+        "first_name": "One", 
+        "last_name": "Man", 
+        "contacts_other": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\r\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
+        "birthday": "2016-01-04", 
+        "skype": "skype.bla", 
+        "jabber": "jabber.bla", 
+        "email": "oneman.42cc@gmail.com"
+    }
+}
+]
