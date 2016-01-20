@@ -1,1 +1,113 @@
- 
+/* Base styles. */
+html {
+    background: #fff;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: tahoma, arial, verdana, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+a {
+    color: #990000;
+}
+
+p {
+    margin: 20px 0;
+}
+
+#content {
+    width: 100%;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 0 -50px 0;
+    padding: 0;
+}
+
+#content > .inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+#content > .inner > h1 {
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    font-size: 42px;
+    line-height: 42px;
+    margin: 0 0 20px 0;
+}
+
+.footer-push, #footer {
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+#footer {
+    text-align: center;
+}
+
+.hd {
+    display: none;
+}
+
+/* Profile styling. */
+.profile {
+    display: inline-block;
+    width: 100%;
+}
+.profile > div {
+    float: left;
+    width: 50%;
+}
+.profile > div p.head {
+    margin: 0;
+    padding: 7px 15px;
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: bold;
+    min-height: 18px;
+}
+.profile > div ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.profile > div ul > li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.profile > div ul > li:after {
+    content: " ";
+    display: table;
+    clear: both;
+}
+.profile > div ul > li > p,
+.profile > div ul > li > div {
+    margin: 0;
+    padding: 7px 15px;
+    float: left;
+    box-sizing: border-box;
+}
+.profile > div.left ul > li > p {
+    width: 42%
+}
+.profile > div.left ul > li > div {
+    width: 58%;
+}
+.profile > div.right ul > li > p {
+    width: 20%
+}
+.profile > div.right ul > li > div {
+    width: 80%;
+}
