@@ -1,0 +1,72 @@
+[
+{
+    "pk": 1, 
+    "model": "hello.profile", 
+    "fields": {
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 
+        "first_name": "Oneman", 
+        "last_name": "Test1", 
+        "contacts_other": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
+        "birthday": "2015-01-01", 
+        "skype": "skype.bla1", 
+        "jabber": "jabber.bla1", 
+        "email": "oneman.test1@42cc.com"
+    }
+},
+{
+    "pk": 2, 
+    "model": "hello.profile", 
+    "fields": {
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 
+        "first_name": "Oneman", 
+        "last_name": "Test2", 
+        "contacts_other": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
+        "birthday": "2015-01-02", 
+        "skype": "skype.bla2", 
+        "jabber": "jabber.bla2", 
+        "email": "oneman.test2@42cc.com"
+    }
+},
+{
+    "pk": 3, 
+    "model": "hello.profile", 
+    "fields": {
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 
+        "first_name": "Oneman", 
+        "last_name": "Test3", 
+        "contacts_other": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
+        "birthday": "2015-01-03", 
+        "skype": "skype.bla3", 
+        "jabber": "jabber.bla3", 
+        "email": "oneman.test3@42cc.com"
+    }
+},
+{
+    "pk": 4, 
+    "model": "hello.profile", 
+    "fields": {
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 
+        "first_name": "Oneman", 
+        "last_name": "Test4", 
+        "contacts_other": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
+        "birthday": "2015-01-04", 
+        "skype": "skype.bla4", 
+        "jabber": "jabber.bla4", 
+        "email": "oneman.test4@42cc.com"
+    }
+},
+{
+    "pk": 5, 
+    "model": "hello.profile", 
+    "fields": {
+        "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 
+        "first_name": "Oneman", 
+        "last_name": "Test5", 
+        "contacts_other": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
+        "birthday": "2015-01-05", 
+        "skype": "skype.bla5", 
+        "jabber": "jabber.bla5", 
+        "email": "oneman.test5@42cc.com"
+    }
+}
+]

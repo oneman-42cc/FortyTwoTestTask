@@ -99,15 +99,9 @@ p {
     float: left;
     box-sizing: border-box;
 }
-.profile > div.left ul > li > p {
-    width: 42%
+.profile > div ul > li > p {
+    width: 25%
 }
-.profile > div.left ul > li > div {
-    width: 58%;
-}
-.profile > div.right ul > li > p {
-    width: 20%
-}
-.profile > div.right ul > li > div {
-    width: 80%;
+.profile > div ul > li > div {
+    width: 75%;
 }

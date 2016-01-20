@@ -14,8 +14,8 @@ class HomePageTest(TestCase):
             a right template."""
 
         self.assertEqual(self.response.status_code, 200)
-        with self.assertTemplateUsed('hello/home.html'):
-            render_to_string('hello/home.html')
+        with self.assertTemplateUsed("hello/home.html"):
+            render_to_string("hello/home.html")
 
     def test_page_title(self):
 
