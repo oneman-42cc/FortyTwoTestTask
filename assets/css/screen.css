@@ -83,7 +83,12 @@ textarea {
 }
 .profile > div {
     float: left;
-    width: 50%;
+}
+.profile > div.left {
+    width: 30%;
+}
+.profile > div.right {
+    width: 70%;
 }
 .profile > div p.head {
     margin: 0;
@@ -115,11 +120,40 @@ textarea {
     float: left;
     box-sizing: border-box;
 }
-.profile > div ul > li > p {
-    width: 25%
+.profile > div ul > li > div p {
+    margin: 0;
 }
-.profile > div ul > li > div {
-    width: 75%;
+.profile > div.left ul > li > p {
+    width: 42%
+}
+.profile > div.left ul > li > div {
+    width: 58%;
+}
+.profile > div.right ul > li > p {
+    width: 20%
+}
+.profile > div.right ul > li > div {
+    width: 80%;
+}
+.profile > div ul > li.photo > div {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #000;
+    float: none;
+    clear: both;
+    margin: 7px 15px;
+    padding: 0;
+}
+.profile > div ul > li.photo.with > div {
+    border: none;
+}
+.profile > div ul > li.photo img {
+    max-width: 200px;
+}
+.profile p.edit {
+    margin: 0;
+    padding: 7px 15px;
+    clear: both;
 }
 
 /* Breadcrumbs styling. */
