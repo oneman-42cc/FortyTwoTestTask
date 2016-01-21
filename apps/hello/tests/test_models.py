@@ -36,6 +36,8 @@ class ModelProfileTest(TestCase):
             scale to size 200x200."""
 
         profile_ = Profile.objects.first()
+        # Call method save, because during save process a photo
+        # scaled.
         profile_.save()
 
         # Before check the size, check or a test image oneman.png

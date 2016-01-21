@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.utils import dateparse, simplejson
 from django.core.urlresolvers import reverse
-from django.template.loader import render_to_string
 from hello.models import Profile
 
 
@@ -18,8 +17,7 @@ class HomePageTest(TestCase):
             a right template."""
 
         self.assertEqual(self.response.status_code, 200)
-        with self.assertTemplateUsed("hello/home.html"):
-            render_to_string("hello/home.html")
+        self.assertTemplateUsed(self.response, "hello/home.html")
 
     def test_page_title(self):
 
@@ -94,8 +92,7 @@ class RequestsPageTest(TestCase):
             a right template."""
 
         self.assertEqual(self.response.status_code, 200)
-        with self.assertTemplateUsed("hello/requests.html"):
-            render_to_string("hello/requests.html")
+        self.assertTemplateUsed(self.response, "hello/requests.html")
 
     def test_check_number_items_in_context(self):
 
@@ -158,8 +155,7 @@ class LoginPageTest(TestCase):
         response = self.client.get(reverse("login"))
 
         self.assertEqual(response.status_code, 200)
-        with self.assertTemplateUsed("registration/login.html"):
-            render_to_string("registration/login.html")
+        self.assertTemplateUsed(response, "registration/login.html")
 
     def test_user_logged(self):
 
