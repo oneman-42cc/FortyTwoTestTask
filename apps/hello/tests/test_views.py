@@ -139,3 +139,42 @@ class RequestsAsyncPageTest(TestCase):
         data_ = simplejson.loads(response._container[0])
         self.assertEqual(int(data_["requests_new"]), 1)
         self.assertIsNotNone(data_["requests_list"])
+
+
+class LoginPageTest(TestCase):
+
+    def test_accessibility_and_template(self):
+
+        """This test checks whether available a login page and uses
+            a right template."""
+
+        response = self.client.get(reverse("login"))
+
+        self.assertEqual(response.status_code, 200)
+        with self.assertTemplateUsed("registration/login.html"):
+            render_to_string("registration/login.html")
+
+    def test_user_logged(self):
+
+        """Test to check login page."""
+
+        self.client.get(reverse("login"))
+        self.assertNotIn('_auth_user_id', self.client.session)
+
+        response = self.client.post(
+            reverse("login"),
+            {"username": "admin", "password": "admin"},
+        )
+        self.assertIn('_auth_user_id', self.client.session)
+        self.assertRedirects(response, reverse("home"), status_code=302)
+
+
+class LogoutPageTest(TestCase):
+
+    def test_accessibility(self):
+
+        """This test checks whether available a logout page."""
+
+        response = self.client.get(reverse("logout"))
+        self.assertRedirects(response, reverse("home"), status_code=302)
+        self.assertNotIn('_auth_user_id', self.client.session)
