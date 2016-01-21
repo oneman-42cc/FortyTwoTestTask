@@ -73,6 +73,13 @@ class HomePageTest(TestCase):
             dateparse.parse_date("2015-01-01"),
         )
 
+    def test_present_photo(self):
+
+        """Test to check or present photo on home page."""
+
+        profile_ = Profile.objects.first()
+        self.assertContains(self.response, profile_.photo.url)
+
 
 class RequestsPageTest(TestCase):
 

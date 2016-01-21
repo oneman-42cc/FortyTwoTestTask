@@ -21,6 +21,7 @@ class ModelProfileTest(TestCase):
         self.assertEqual(profile_.email, "oneman.test1@42cc.com")
         self.assertEqual(profile_.first_name, "Oneman")
         self.assertEqual(profile_.last_name, "Test1")
+        self.assertEqual(profile_.photo, "profile/photo/oneman.png")
         self.assertEqual(profile_.jabber, "jabber.bla1")
         self.assertEqual(profile_.skype, "skype.bla1")
         self.assertEqual(
