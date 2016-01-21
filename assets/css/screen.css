@@ -23,6 +23,22 @@ p {
     margin: 20px 0;
 }
 
+input[type=submit] {
+    margin: 0;
+    padding: 7px 25px;
+    text-align: center;
+    text-transform: uppercase;
+    background: #000000;
+    color: #ffffff;
+    font-weight: normal;
+    border: none;
+    cursor: pointer;
+}
+
+textarea {
+    padding: 7px 15px;
+}
+
 #content {
     width: 100%;
     min-height: 100%;
@@ -150,4 +166,43 @@ table.rp tr td:last-child {
 }
 table.rp tr td:nth-child(even) {
     text-align: justify;
+}
+
+/* Auth block. */
+.auth {
+    float: right;
+    margin: 12px 0;
+    font-size: 13px;
+}
+
+/* Fileds list in form. */
+ul.fields {
+    margin: 20px 0;
+    padding: 0;
+    list-style: none;
+}
+ul.fields > li {
+    margin: 15px 0;
+    padding: 0;
+    list-style: none;
+}
+ul.fields > li input {
+    display: block;
+    padding: 7px 15px;
+    margin: 3px 0 0 0;
+    min-width: 30%;
+}
+ul.errorlist > li {
+    color: red;
+    font-size: 13px;
+}
+
+/* Errors. */
+p.er {
+    color: #F00;
+    font-size: 13px;
+    background: #ffcccc;
+    padding: 7px 15px;
+    margin: 0px;
+    display: inline-block;
 }
