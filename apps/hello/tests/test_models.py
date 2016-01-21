@@ -1,3 +1,4 @@
+import os.path
 from django.test import TestCase
 from django.utils import dateparse
 from django.contrib.auth.models import User
@@ -48,3 +49,20 @@ class ModelRequestTest(TestCase):
             request_.date,
             dateparse.parse_datetime("2016-01-04T17:31:39.112Z"),
         )
+
+    def test_size_of_photo(self):
+
+        """Test to check a size of photo. On save image should be
+            scale to size 200x200."""
+
+        profile_ = Profile.objects.first()
+
+        # Before check the size, check or a test image oneman.png
+        # exist on the server.
+        if os.path.isfile(profile_.photo.path):
+            # Call method save, because during save process a photo
+            # scaled.
+            profile_.save()
+
+            self.assertLessEqual(profile_.photo.width, 200)
+            self.assertLessEqual(profile_.photo.height, 200)
