@@ -180,4 +180,8 @@ LOGGING = {
     }
 }
 
+
+# Authentication settings.
+# https://docs.djangoproject.com/es/1.9/ref/settings/#auth
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'

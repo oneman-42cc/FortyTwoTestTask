@@ -1,0 +1,75 @@
+{% load url from future %}
+{% load staticfiles admin_urls admin_static admin_modify %}
+    
+<form method="post" action="" enctype="multipart/form-data" class="profileUpdate" onsubmit="$.ProfileUpdateForm('save', this); return false;">
+
+    {% if form.errors %}
+        <p class="er">Something wrong. Please check carefully all data which you entered to the form again.</p>
+    {% endif %}
+
+    <div class="profile">
+        <div class="left">
+            <ul class="fields">
+                <li>
+                    <p>Name:</p>
+                    <div>{{form.first_name}}{{ form.first_name.errors }}</div>
+                </li>
+                <li>
+                    <p>Last name:</p>
+                    <div>{{form.last_name}}{{ form.last_name.errors }}</div>
+                </li>
+                <li>
+                    <p>Date of birth:</p>
+                    <div>{{form.birthday}}{{ form.birthday.errors }}</div>
+                </li>
+                <li class="photo {% if object.photo %}with{% endif %}">
+                    <p>Photo:</p>
+                    <div>{{form.photo}}{{ form.photo.errors }}</div>
+                </li>
+            </ul>
+        </div>
+        <div class="right">
+            <ul class="fields">
+                <li>
+                    <p>
+                        {% if form.email.label %}
+                            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+                        {% endif %}
+                    </p>
+                    <div>
+                        {{form.email}}
+                        {{ form.email.errors }}
+                        {% if form.email.help_text %}
+                            <p class="dscr">{{ form.email.help_text }}</p>
+                        {% endif %}
+                    </div>
+                </li>
+                <li>
+                    <p>Jabber:</p>
+                    <div>{{form.jabber}}{{ form.jabber.errors }}</div>
+                </li>
+                <li>
+                    <p>Skype:</p>
+                    <div>{{form.skype}}{{ form.skype.errors }}</div>
+                </li>
+                <li>
+                    <p>Other contacts:</p>
+                    <div>{{form.contacts_other}}{{ form.contacts_other.errors }}</div>
+                </li>
+                <li>
+                    <p>Bio:</p>
+                    <div>{{form.bio}}{{ form.bio.errors }}</div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input type="submit" value="Save" />
+        <a href="{% url 'home' %}" class="cancel">Cancel</a>
+        {% csrf_token %}
+        <span class="ajax-loader hd"><img src="{% static 'img/loader.gif' %}"></span>
+    </div>
+
+</form>

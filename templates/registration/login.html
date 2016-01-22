@@ -18,10 +18,6 @@
     </ul>
 
     <p>Authentication on the site allow you to edit data in your profile.</p>
-    
-    {% if form.errors %}
-        <p class="er">Your username and password didn't match. Please try again.</p>
-    {% endif %}
 
     {% if next %}
         {% if user.is_authenticated %}
@@ -32,6 +28,10 @@
     {% endif %}
 
     <form method="post" action="{% url 'login' %}">
+
+        {% if form.errors %}
+            <p class="er">Your username and password didn't match. Please try again.</p>
+        {% endif %}
 
         <ul class="fields">
             {% for field in form %}

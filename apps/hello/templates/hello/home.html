@@ -63,6 +63,12 @@
             </div>
         </div>
 
+        {% if user.is_authenticated %}
+            <p class="edit-profile">
+                <a href="{% url 'edit' %}">Edit profile</a>
+            </p>
+        {% endif %}
+
     {% else %}
         <p>Sorry, I didn't fill out my cv. I'll do this in near future.</p>
     {% endif %}

@@ -73,7 +73,7 @@ textarea {
 }
 
 .hd {
-    display: none;
+    display: none !important;
 }
 
 /* Profile styling. */
@@ -137,8 +137,6 @@ textarea {
 }
 .profile > div ul > li.photo > div {
     width: 200px;
-    height: 200px;
-    border: 1px solid #000;
     float: none;
     clear: both;
     margin: 7px 15px;
@@ -150,7 +148,7 @@ textarea {
 .profile > div ul > li.photo img {
     max-width: 200px;
 }
-.profile p.edit {
+p.edit-profile {
     margin: 0;
     padding: 7px 15px;
     clear: both;
@@ -226,9 +224,17 @@ ul.fields > li input {
     margin: 3px 0 0 0;
     min-width: 30%;
 }
+ul.errorlist {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
 ul.errorlist > li {
     color: red;
     font-size: 13px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 /* Errors. */
@@ -237,6 +243,37 @@ p.er {
     font-size: 13px;
     background: #ffcccc;
     padding: 7px 15px;
-    margin: 0px;
+    margin: 0 0 20px 0;
     display: inline-block;
+}
+
+/* Profile edit form. */
+form.profileUpdate .left input {
+    width: 80%;
+}
+form.profileUpdate .right input {
+    width: 50%;
+}
+form.profileUpdate .right textarea {
+    width: 50%;
+    min-width: 50%;
+    max-width: 50%;
+}
+form.profileUpdate .actions * {
+    margin-right: 25px;
+}
+form.profileUpdate .datetimeshortcuts a {
+    display: inline-block;
+    height: 12px;
+}
+form.profileUpdate .datetimeshortcuts a img {
+    display: block;
+}
+form.profileUpdate .ajax-loader {
+    display: inline-block;
+    margin-bottom: -9px;
+}
+form.profileUpdate .ajax-loader img {
+    display: block;
+    margin: 0;
 }
