@@ -1,0 +1,16 @@
+/* Styling ThumbnailFileInput */
+.wThumbnailField img {
+    display: block;
+}
+.wThumbnailField label {
+    color: #900;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.wThumbnailField label span {
+    text-decoration: none;
+    color: #000;
+}
+.wThumbnailField input[type="file"] {
+    display: none;
+}

@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
-from hello.views import HomeView, RequestsListView, RequestsAsyncView
+from hello.views import HomeView, RequestsListView, RequestsAsyncView,\
+    ProfileEditView
 
 urlpatterns = patterns(
     '',
@@ -10,4 +11,5 @@ urlpatterns = patterns(
         RequestsAsyncView.as_view(),
         name='requests-async',
     ),
+    url(r'^edit/$', ProfileEditView.as_view(), name='edit'),
 )

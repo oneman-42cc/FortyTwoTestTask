@@ -1,0 +1,12 @@
+<div class="wThumbnailField">
+    {% if value.url %}
+        <img src="{{ value.url }}" alt="{{ value }}" />
+        {% if not required %}
+            <p><input type="checkbox" name="{{ checkbox_name }}" id="{{ checkbox_id }}">
+            <label for="{{ checkbox_id }}">Clear</label></p>
+        {% endif %}
+        <label for="id_{{name}}">Change</label>
+        <span class="fileName"></span>
+    {% endif %}
+    <input id="id_{{name}}" type="file" name="{{ name }}" value="{{value}}" onchange="$.ThumbnailFileInput('change');">
+</div>

@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.utils import dateparse, simplejson
 from django.core.urlresolvers import reverse
-from django.template.loader import render_to_string
 from hello.models import Profile
+from hello.forms import ProfileModelForm
 
 
 class HomePageTest(TestCase):
@@ -18,8 +18,7 @@ class HomePageTest(TestCase):
             a right template."""
 
         self.assertEqual(self.response.status_code, 200)
-        with self.assertTemplateUsed("hello/home.html"):
-            render_to_string("hello/home.html")
+        self.assertTemplateUsed(self.response, "hello/home.html")
 
     def test_page_title(self):
 
@@ -73,8 +72,17 @@ class HomePageTest(TestCase):
             dateparse.parse_date("2015-01-01"),
         )
 
+    def test_present_photo(self):
+
+        """Test to check or present photo on home page."""
+
+        profile_ = Profile.objects.first()
+        self.assertContains(self.response, profile_.photo.url)
+
 
 class RequestsPageTest(TestCase):
+
+    """Test to check a view of requests page - RequestsListView."""
 
     fixtures = ["requests_test.json"]
 
@@ -87,8 +95,7 @@ class RequestsPageTest(TestCase):
             a right template."""
 
         self.assertEqual(self.response.status_code, 200)
-        with self.assertTemplateUsed("hello/requests.html"):
-            render_to_string("hello/requests.html")
+        self.assertTemplateUsed(self.response, "hello/requests.html")
 
     def test_check_number_items_in_context(self):
 
@@ -102,6 +109,8 @@ class RequestsPageTest(TestCase):
 
 
 class RequestsAsyncPageTest(TestCase):
+
+    """Test to check a view of requests async page - RequestsAsyncView."""
 
     def test_accessibility(self):
 
@@ -139,3 +148,140 @@ class RequestsAsyncPageTest(TestCase):
         data_ = simplejson.loads(response._container[0])
         self.assertEqual(int(data_["requests_new"]), 1)
         self.assertIsNotNone(data_["requests_list"])
+
+
+class LoginPageTest(TestCase):
+
+    def test_accessibility_and_template(self):
+
+        """This test checks whether available a login page and uses
+            a right template."""
+
+        response = self.client.get(reverse("login"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "registration/login.html")
+
+    def test_user_logged(self):
+
+        """Test to check login page."""
+
+        self.client.get(reverse("login"))
+        self.assertNotIn('_auth_user_id', self.client.session)
+
+        response = self.client.post(
+            reverse("login"),
+            {"username": "admin", "password": "admin"},
+        )
+        self.assertIn('_auth_user_id', self.client.session)
+        self.assertRedirects(response, reverse("home"), status_code=302)
+
+
+class LogoutPageTest(TestCase):
+
+    def test_accessibility(self):
+
+        """This test checks whether available a logout page."""
+
+        response = self.client.get(reverse("logout"))
+        self.assertRedirects(response, reverse("home"), status_code=302)
+        self.assertNotIn('_auth_user_id', self.client.session)
+
+
+class ProfileEditPageTest(TestCase):
+
+    """Test to check a view of edit profile page - ProfileEditView."""
+
+    def authorize_admin(self):
+
+        """Helper method which authorize admin on the site."""
+
+        # Authorize user admin.
+        self.client.post(
+            reverse("login"),
+            {"username": "admin", "password": "admin"},
+        )
+        self.response = self.client.get(reverse("edit"))
+
+    def test_accessibility_and_template(self):
+
+        """This test checks whether available a edit page and uses
+            a right template."""
+
+        response = self.client.get(reverse("edit"))
+        self.assertRedirects(
+            response,
+            reverse("login") + "?next=/edit/",
+            status_code=302,
+        )
+
+        self.authorize_admin()
+
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, "hello/edit.html")
+
+    def test_check_context_data(self):
+
+        """Test to check edit profile page."""
+
+        self.authorize_admin()
+        profile_ = Profile.objects.first()
+
+        self.assertEqual(self.response.context["object"], profile_)
+        self.assertEqual(
+            self.response.context["form"].__class__,
+            ProfileModelForm().__class__
+        )
+
+    def test_initial_data_of_edit_form(self):
+
+        """Test to check initial data of edit profile form."""
+
+        self.authorize_admin()
+
+        profile_ = Profile.objects.first()
+        data_ = self.response.context["form"].initial
+
+        self.assertEqual(data_["email"], profile_.email)
+        self.assertEqual(data_["first_name"], profile_.first_name)
+        self.assertEqual(data_["last_name"], profile_.last_name)
+        self.assertEqual(data_["birthday"], profile_.birthday)
+        self.assertEqual(data_["jabber"], profile_.jabber)
+        self.assertEqual(data_["skype"], profile_.skype)
+        self.assertEqual(data_["bio"], profile_.bio)
+        self.assertEqual(data_["contacts_other"], profile_.contacts_other)
+        self.assertEqual(data_["photo"], profile_.photo)
+
+    def test_required_fields_form(self):
+
+        """Test to ckeck required fields. Required fields are: photo, email,
+            first_name and last_name.
+        """
+
+        profile_ = Profile.objects.first()
+        data_ = profile_.__dict__
+
+        # Required fields are: photo, email, first_name and last_name.
+        data_["photo"] = data_["email"] = data_["first_name"] = \
+            data_["last_name"] = ""
+
+        form = ProfileModelForm(data=data_)
+
+        self.assertFalse(form.is_valid())
+
+        self.assertEqual(
+            form.errors["photo"][0],
+            "This field is required.",
+        )
+        self.assertEqual(
+            form.errors["email"][0],
+            "This field is required.",
+        )
+        self.assertEqual(
+            form.errors["first_name"][0],
+            "This field is required.",
+        )
+        self.assertEqual(
+            form.errors["last_name"][0],
+            "This field is required.",
+        )

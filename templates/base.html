@@ -21,11 +21,19 @@
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
         <div id="content">
             <div class="inner">
+                <div class="auth">
+                    {% if user.is_authenticated %}
+                        You are logged as <a href="{% url 'home' %}">{{user}}</a>, <a href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                    {% endif %}
+                </div>
                 {% block content %}{% endblock content %}
             </div>
             <div class="footer-push"></div>
         </div>
         <div id="footer">
+            <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
             {% block footer %}{% endblock footer %}
         </div>
     </body>

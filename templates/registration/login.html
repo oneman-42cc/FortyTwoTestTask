@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block body_id %}page-login{% endblock %}
+
+{% block title %}Login{%endblock%}
+
+{% block content %}
+
+    <h1>Login</h1>
+
+    <ul class="breadcrumbs">
+        <li>
+            <a href="{% url 'home' %}">Home</a>
+            <span class="separator">-></span>
+        </li>
+        <li>Login</li>
+    </ul>
+
+    <p>Authentication on the site allow you to edit data in your profile.</p>
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+
+        {% if form.errors %}
+            <p class="er">Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        <ul class="fields">
+            {% for field in form %}
+                <li>
+                    {% if field.label %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% endif %}
+                    {{ field }}
+                    {{ field.errors }}
+                    {% if field.help_text %}
+                        <p class="dscr">{{ field.help_text }}</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="actions">
+            {% csrf_token %}
+            <input type="submit" value="Login" />
+            <input type="hidden" name="next" value="{{ next }}" />
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block footer %}
+    <a href="{% url 'requests' %}">HTTP requests</a>
+{% endblock footer %}

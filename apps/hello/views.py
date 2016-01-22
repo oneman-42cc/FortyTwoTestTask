@@ -1,12 +1,59 @@
 import time
 import logging
+from django.core.urlresolvers import reverse
 from django.utils import simplejson
+from django.utils.decorators import method_decorator
 from django.http import HttpResponse, HttpResponseForbidden
+from django.template import RequestContext
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 from django.views import generic
 from hello.models import Profile, Request
+from hello.forms import ProfileModelForm
 
 logger = logging.getLogger("django")
+
+
+class AjaxableResponseMixin(object):
+
+    """Mixin to add AJAX support to a form.
+        Must be used with an object-based FormView (e.g. CreateView)
+    """
+
+    def render_to_json_response(self, context, **response_kwargs):
+        data = simplejson.dumps(context)
+        response_kwargs['content_type'] = 'application/json'
+        return HttpResponse(data, **response_kwargs)
+
+    def form_invalid(self, form):
+        response = super(AjaxableResponseMixin, self).form_invalid(form)
+        if self.request.is_ajax():
+            template_ = self.template_name.replace(
+                ".html",
+                "-%s.html" % form.__class__.__name__,
+            )
+            data = {"form": render_to_string(
+                template_,
+                {"form": form},
+                RequestContext(self.request),
+            )}
+            return self.render_to_json_response(data, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        # We make sure to call the parent's form_valid() method because
+        # it might do some processing (in the case of CreateView, it will
+        # call form.save() for example).
+        response = super(AjaxableResponseMixin, self).form_valid(form)
+        if self.request.is_ajax():
+            data = {
+                'pk': self.object.pk,
+                "success_url": self.get_success_url(),
+            }
+            return self.render_to_json_response(data)
+        else:
+            return response
 
 
 class HomeView(generic.DetailView):
@@ -128,3 +175,30 @@ class RequestsAsyncView(generic.View):
             simplejson.dumps(data_),
             content_type="application/json",
         )
+
+
+class ProfileEditView(AjaxableResponseMixin, generic.edit.UpdateView):
+
+    """A view for edit profile page."""
+
+    model = Profile
+    form_class = ProfileModelForm
+    template_name = "hello/edit.html"
+
+    def get_object(self, queryset=None):
+        return Profile.objects.first()
+
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(ProfileEditView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse("home")
+
+    def get_context_data(self, **kwargs):
+
+        logger.debug(self.get_queryset())
+        context = super(ProfileEditView, self).get_context_data(**kwargs)
+        logger.debug(context)
+
+        return context
