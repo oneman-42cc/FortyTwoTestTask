@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.utils import dateparse, simplejson
 from django.core.urlresolvers import reverse
 from hello.models import Profile
+from hello.forms import ProfileModelForm
 
 
 class HomePageTest(TestCase):
@@ -81,6 +82,8 @@ class HomePageTest(TestCase):
 
 class RequestsPageTest(TestCase):
 
+    """Test to check a view of requests page - RequestsListView."""
+
     fixtures = ["requests_test.json"]
 
     def setUp(self):
@@ -106,6 +109,8 @@ class RequestsPageTest(TestCase):
 
 
 class RequestsAsyncPageTest(TestCase):
+
+    """Test to check a view of requests async page - RequestsAsyncView."""
 
     def test_accessibility(self):
 
@@ -181,3 +186,124 @@ class LogoutPageTest(TestCase):
         response = self.client.get(reverse("logout"))
         self.assertRedirects(response, reverse("home"), status_code=302)
         self.assertNotIn('_auth_user_id', self.client.session)
+
+
+class ProfileEditPageTest(TestCase):
+
+    """Test to check a view of edit profile page - ProfileEditView."""
+
+    def authorize_admin(self):
+
+        """Helper method which authorize admin on the site."""
+
+        # Authorize user admin.
+        self.client.post(
+            reverse("login"),
+            {"username": "admin", "password": "admin"},
+        )
+        self.response = self.client.get(reverse("edit"))
+
+    def test_accessibility_and_template(self):
+
+        """This test checks whether available a edit page and uses
+            a right template."""
+
+        response = self.client.get(reverse("edit"))
+        self.assertRedirects(
+            response,
+            reverse("login") + "?next=/edit/",
+            status_code=302,
+        )
+
+        self.authorize_admin()
+
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, "hello/edit.html")
+
+    def test_check_context_data(self):
+
+        """Test to check edit profile page."""
+
+        self.authorize_admin()
+        profile_ = Profile.objects.first()
+
+        self.assertEqual(self.response.context["object"], profile_)
+        self.assertEqual(
+            self.response.context["form"].__class__,
+            ProfileModelForm().__class__
+        )
+
+    def test_initial_data_of_edit_form(self):
+
+        """Test to check initial data of edit profile form."""
+
+        self.authorize_admin()
+
+        profile_ = Profile.objects.first()
+        data_ = self.response.context["form"].initial
+
+        self.assertEqual(data_["email"], profile_.email)
+        self.assertEqual(data_["first_name"], profile_.first_name)
+        self.assertEqual(data_["last_name"], profile_.last_name)
+        self.assertEqual(data_["birthday"], profile_.birthday)
+        self.assertEqual(data_["jabber"], profile_.jabber)
+        self.assertEqual(data_["skype"], profile_.skype)
+        self.assertEqual(data_["bio"], profile_.bio)
+        self.assertEqual(data_["contacts_other"], profile_.contacts_other)
+        self.assertEqual(data_["photo"], profile_.photo)
+
+    def test_required_fields_form(self):
+
+        """Test to ckeck required fields. Required fields are: photo, email,
+            first_name and last_name.
+        """
+
+        profile_ = Profile.objects.first()
+        data_ = profile_.__dict__
+
+        # Required fields are: photo, email, first_name and last_name.
+        data_["photo"] = data_["email"] = data_["first_name"] = \
+            data_["last_name"] = ""
+
+        form = ProfileModelForm(data=data_)
+
+        self.assertFalse(form.is_valid())
+
+        self.assertEqual(
+            form.errors["photo"][0],
+            "This field is required.",
+        )
+        self.assertEqual(
+            form.errors["email"][0],
+            "This field is required.",
+        )
+        self.assertEqual(
+            form.errors["first_name"][0],
+            "This field is required.",
+        )
+        self.assertEqual(
+            form.errors["last_name"][0],
+            "This field is required.",
+        )
+
+    def test_or_update_profile_after_save_form(self):
+
+        """Test to check or update profile data after form submition."""
+
+        profile_ = Profile.objects.first()
+
+        files = {"photo": profile_.photo}
+        data_ = profile_.__dict__
+
+        self.assertEqual(profile_.first_name, "One")
+        self.assertEqual(profile_.last_name, "Man")
+
+        # Change some data.
+        data_["first_name"] = "One.Changed"
+        data_["last_name"] = "Man.Changed"
+
+        form = ProfileModelForm(data=data_, files=files)
+        form.save()
+
+        self.assertEqual(profile_.first_name, "One.Changed")
+        self.assertEqual(profile_.last_name, "Man.Changed")

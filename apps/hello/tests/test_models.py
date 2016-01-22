@@ -33,6 +33,8 @@ class ModelProfileTest(TestCase):
 
 class ModelRequestTest(TestCase):
 
+    """Test to check model Request."""
+
     fixtures = ["requests_test.json"]
 
     def test_or_save_request_to_database(self):
