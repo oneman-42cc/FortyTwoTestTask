@@ -73,7 +73,7 @@ textarea {
 }
 
 .hd {
-    display: none !important;
+    visibility: hidden !important;
 }
 
 /* Profile styling. */
