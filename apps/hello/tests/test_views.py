@@ -285,25 +285,3 @@ class ProfileEditPageTest(TestCase):
             form.errors["last_name"][0],
             "This field is required.",
         )
-
-    def test_or_update_profile_after_save_form(self):
-
-        """Test to check or update profile data after form submition."""
-
-        profile_ = Profile.objects.first()
-
-        files = {"photo": profile_.photo}
-        data_ = profile_.__dict__
-
-        self.assertEqual(profile_.first_name, "One")
-        self.assertEqual(profile_.last_name, "Man")
-
-        # Change some data.
-        data_["first_name"] = "One.Changed"
-        data_["last_name"] = "Man.Changed"
-
-        form = ProfileModelForm(data=data_, files=files)
-        form.save()
-
-        self.assertEqual(profile_.first_name, "One.Changed")
-        self.assertEqual(profile_.last_name, "Man.Changed")

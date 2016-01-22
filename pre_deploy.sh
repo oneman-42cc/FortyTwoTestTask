@@ -5,3 +5,4 @@ cd static && ls && cd ..
 rm -rf static/*
 
 tree -p ../uploads
+locate oneman.png
