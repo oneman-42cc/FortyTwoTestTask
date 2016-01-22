@@ -37,6 +37,9 @@ input[type=submit] {
 
 textarea {
     padding: 7px 15px;
+    font-family: tahoma, arial, verdana, sans-serif;
+    font-size: 15px;
+    line-height: 18px;
 }
 
 #content {
@@ -88,7 +91,8 @@ textarea {
     width: 30%;
 }
 .profile > div.right {
-    width: 70%;
+    width: 65%;
+    margin-left: 5%;
 }
 .profile > div p.head {
     margin: 0;
@@ -130,7 +134,7 @@ textarea {
     width: 58%;
 }
 .profile > div.right ul > li > p {
-    width: 20%
+    width: 15%
 }
 .profile > div.right ul > li > div {
     width: 80%;
@@ -203,7 +207,7 @@ table.rp tr td:nth-child(even) {
 /* Auth block. */
 .auth {
     float: right;
-    margin: 12px 0;
+    margin: 22px 0 0 0;
     font-size: 13px;
 }
 
@@ -243,11 +247,14 @@ p.er {
     font-size: 13px;
     background: #ffcccc;
     padding: 7px 15px;
-    margin: 0 0 20px 0;
+    margin: 0;
     display: inline-block;
 }
 
 /* Profile edit form. */
+form.profileUpdate p.er {
+    margin-bottom: 20px;
+}
 form.profileUpdate .left input {
     width: 80%;
 }
@@ -276,4 +283,8 @@ form.profileUpdate .ajax-loader {
 form.profileUpdate .ajax-loader img {
     display: block;
     margin: 0;
+}
+form.profileUpdate ul.fields > li:not(.photo) > p {
+    position: relative;
+    top: 14px;
 }

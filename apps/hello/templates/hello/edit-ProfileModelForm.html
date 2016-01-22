@@ -11,16 +11,46 @@
         <div class="left">
             <ul class="fields">
                 <li>
-                    <p>Name:</p>
-                    <div>{{form.first_name}}{{ form.first_name.errors }}</div>
+                    <p>
+                        {% if form.first_name.label %}
+                            <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}:</label>
+                        {% endif %}
+                    </p>
+                    <div>
+                        {{form.first_name}}
+                        {{ form.first_name.errors }}
+                        {% if form.first_name.help_text %}
+                            <p class="dscr">{{ form.first_name.help_text }}</p>
+                        {% endif %}
+                    </div>
                 </li>
                 <li>
-                    <p>Last name:</p>
-                    <div>{{form.last_name}}{{ form.last_name.errors }}</div>
+                    <p>
+                        {% if form.last_name.label %}
+                            <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}:</label>
+                        {% endif %}
+                    </p>
+                    <div>
+                        {{form.last_name}}
+                        {{ form.last_name.errors }}
+                        {% if form.last_name.help_text %}
+                            <p class="dscr">{{ form.last_name.help_text }}</p>
+                        {% endif %}
+                    </div>
                 </li>
                 <li>
-                    <p>Date of birth:</p>
-                    <div>{{form.birthday}}{{ form.birthday.errors }}</div>
+                    <p>
+                        {% if form.birthday.label %}
+                            <label for="{{ form.birthday.id_for_label }}">{{ form.birthday.label }}:</label>
+                        {% endif %}
+                    </p>
+                    <div>
+                        {{form.birthday}}
+                        {{ form.birthday.errors }}
+                        {% if form.birthday.help_text %}
+                            <p class="dscr">{{ form.birthday.help_text }}</p>
+                        {% endif %}
+                    </div>
                 </li>
                 <li class="photo {% if object.photo %}with{% endif %}">
                     <p>Photo:</p>
@@ -45,20 +75,60 @@
                     </div>
                 </li>
                 <li>
-                    <p>Jabber:</p>
-                    <div>{{form.jabber}}{{ form.jabber.errors }}</div>
+                    <p>
+                        {% if form.jabber.label %}
+                            <label for="{{ form.jabber.id_for_label }}">{{ form.jabber.label }}:</label>
+                        {% endif %}
+                    </p>
+                    <div>
+                        {{form.jabber}}
+                        {{ form.jabber.errors }}
+                        {% if form.jabber.help_text %}
+                            <p class="dscr">{{ form.jabber.help_text }}</p>
+                        {% endif %}
+                    </div>
                 </li>
                 <li>
-                    <p>Skype:</p>
-                    <div>{{form.skype}}{{ form.skype.errors }}</div>
+                    <p>
+                        {% if form.skype.label %}
+                            <label for="{{ form.skype.id_for_label }}">{{ form.skype.label }}:</label>
+                        {% endif %}
+                    </p>
+                    <div>
+                        {{form.skype}}
+                        {{ form.skype.errors }}
+                        {% if form.skype.help_text %}
+                            <p class="dscr">{{ form.skype.help_text }}</p>
+                        {% endif %}
+                    </div>
                 </li>
                 <li>
-                    <p>Other contacts:</p>
-                    <div>{{form.contacts_other}}{{ form.contacts_other.errors }}</div>
+                    <p>
+                        {% if form.contacts_other.label %}
+                            <label for="{{ form.contacts_other.id_for_label }}">{{ form.contacts_other.label }}:</label>
+                        {% endif %}
+                    </p>
+                    <div>
+                        {{form.contacts_other}}
+                        {{ form.contacts_other.errors }}
+                        {% if form.contacts_other.help_text %}
+                            <p class="dscr">{{ form.contacts_other.help_text }}</p>
+                        {% endif %}
+                    </div>
                 </li>
                 <li>
-                    <p>Bio:</p>
-                    <div>{{form.bio}}{{ form.bio.errors }}</div>
+                    <p>
+                        {% if form.bio.label %}
+                            <label for="{{ form.bio.id_for_label }}">{{ form.bio.label }}:</label>
+                        {% endif %}
+                    </p>
+                    <div>
+                        {{form.bio}}
+                        {{ form.bio.errors }}
+                        {% if form.bio.help_text %}
+                            <p class="dscr">{{ form.bio.help_text }}</p>
+                        {% endif %}
+                    </div>
                 </li>
             </ul>
         </div>
