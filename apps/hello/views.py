@@ -4,7 +4,6 @@ from django.core.urlresolvers import reverse
 from django.utils import simplejson
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse, HttpResponseForbidden
-from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.views import generic
@@ -28,16 +27,7 @@ class AjaxableResponseMixin(object):
     def form_invalid(self, form):
         response = super(AjaxableResponseMixin, self).form_invalid(form)
         if self.request.is_ajax():
-            template_ = self.template_name.replace(
-                ".html",
-                "-%s.html" % form.__class__.__name__,
-            )
-            data = {"form": render_to_string(
-                template_,
-                {"form": form},
-                RequestContext(self.request),
-            )}
-            return self.render_to_json_response(data, status=400)
+            return self.render_to_json_response(form.errors, status=400)
         else:
             return response
 
@@ -69,7 +59,14 @@ class HomeView(generic.DetailView):
             In this case it is first object of Profile.
         """
 
-        return Profile.objects.first()
+        profile_ = Profile.objects.first()
+
+        # Before present a photo check or it exist on the server,
+        # to avoid showing broken image.
+        if profile_ and not profile_.photo_exist_onserver():
+            profile_.photo = ""
+
+        return profile_
 
     def get_context_data(self, **kwargs):
 

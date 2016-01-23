@@ -26,14 +26,16 @@
                         <p>Date of birth:</p>
                         <div>{{profile.birthday|date:"Y-m-d"}}</div>
                     </li>
-                    <li class="photo {% if profile.photo %}with{% endif %}">
-                        <p>Photo:</p>
-                        <div>
-                            {% if profile.photo %}
-                                <img src="{{profile.photo.url}}">
-                            {% endif %}
-                        </div>
-                    </li>
+                    {% if profile.photo %}
+                        <li class="photo">
+                            <p>Photo:</p>
+                            <div>
+                                {% if profile.photo %}
+                                    <img src="{{profile.photo.url}}">
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="right">

@@ -5,6 +5,10 @@ from django.template.loader import render_to_string
 
 class ThumbnailFileInput(ClearableFileInput):
 
+    """A widget for inputs of image field. Present thumbnail of
+        uploaded image.
+    """
+
     class Media:
         js = ("js/thumbnailfileinput.widget.js",)
         css = {
@@ -12,6 +16,9 @@ class ThumbnailFileInput(ClearableFileInput):
         }
 
     def render(self, name, value, attrs=None):
+
+        if not value.instance.photo_exist_onserver():
+            value = ""
 
         context = {
             "name": name,

@@ -17,6 +17,8 @@
 
                 methods.handleLoader.apply( this, ["show"] );
                 methods.disableElements.apply( this, [$form, "disable"] );
+                // Before send request remove errors.
+                $form.find("ul.errorlist").remove();
 
                 $.ajax({
                     url: "/edit/",
@@ -31,13 +33,36 @@
                     },
                     error : function(xhr, errmsg, err) {
 
+                        console.log("An error has occurred during save a form.");
+
                         var
                             jsondata = $.parseJSON(xhr.responseText);
-
-                        $form.replaceWith(jsondata.form);
-                        methods.initWidgets.apply( this, [] );
+                        // Insert errors innto form.
+                        methods.handleErrorMsg.apply( this, [$form, jsondata] );
+                        // Enable inputs and hide loader.
+                        methods.disableElements.apply( this, [$form, "enable"] );
+                        methods.handleLoader.apply( this, ["hide"] );
 
                     }
+                });
+
+            },
+
+            handleErrorMsg : function($form, errors) {
+
+                $.each( errors, function( fieldname, messages ) {
+                    
+                    var
+                        $ul = $('<ul class="errorlist"></ul>'),
+                        $input = $form.find("input[name=" + fieldname + "]"),
+                        $div = $input.parent("div");
+
+                    $.each( messages, function( key, message ) {
+                        $ul.append("<li>" + message + "</li>");
+                    });
+
+                    $div.append($ul);
+
                 });
 
             },
@@ -81,11 +106,6 @@
                 });
                 
                 return _data;
-            },
-
-            initWidgets : function() {
-                // Init popup calendar widget.
-                DateTimeShortcuts.init();
             },
 
             handleLoader : function(action) {

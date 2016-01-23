@@ -1,3 +1,4 @@
+import os.path
 from PIL import Image
 from django.db import models
 from django.contrib.auth.models import User
@@ -29,7 +30,7 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
 
-        if not self.photo:
+        if not self.photo or not os.path.isfile(self.photo.path):
             return
 
         maxsize = (200, 200)
@@ -38,6 +39,18 @@ class Profile(models.Model):
         image_.thumbnail(maxsize, Image.ANTIALIAS)
 
         image_.save(self.photo.path)
+
+    def photo_exist_onserver(self):
+
+        """Mathod to check or exist photo on the server."""
+
+        if not self.photo:
+            return False
+
+        if os.path.isfile(self.photo.path):
+            return True
+
+        return False
 
 
 class Request(models.Model):

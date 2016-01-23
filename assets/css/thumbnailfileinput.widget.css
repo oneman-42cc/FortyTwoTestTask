@@ -11,6 +11,3 @@
     text-decoration: none;
     color: #000;
 }
-.wThumbnailField input[type="file"] {
-    display: none;
-}
