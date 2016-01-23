@@ -30,7 +30,7 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
 
-        if not self.photo or not os.path.isfile(self.photo.path):
+        if not self.photo or not self.photo_exist_onserver():
             return
 
         maxsize = (200, 200)
