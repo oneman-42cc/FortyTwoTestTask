@@ -76,7 +76,7 @@ textarea {
 }
 
 .hd {
-    display: none !important;
+    visibility: hidden !important;
 }
 
 /* Profile styling. */
@@ -287,4 +287,7 @@ form.profileUpdate .ajax-loader img {
 form.profileUpdate ul.fields > li:not(.photo) > p {
     position: relative;
     top: 14px;
+}
+form.profileUpdate .photo input {
+    width: 125%;
 }

@@ -77,7 +77,8 @@ class HomePageTest(TestCase):
         """Test to check or present photo on home page."""
 
         profile_ = Profile.objects.first()
-        self.assertContains(self.response, profile_.photo.url)
+        if profile_.photo_exist_onserver():
+            self.assertContains(self.response, profile_.photo.url)
 
 
 class RequestsPageTest(TestCase):

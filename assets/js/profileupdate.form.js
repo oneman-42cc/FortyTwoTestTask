@@ -17,6 +17,8 @@
 
                 methods.handleLoader.apply( this, ["show"] );
                 methods.disableElements.apply( this, [$form, "disable"] );
+                // Before send request remove errors.
+                $form.find("ul.errorlist").remove();
 
                 $.ajax({
                     url: "/edit/",
@@ -59,10 +61,7 @@
                         $ul.append("<li>" + message + "</li>");
                     });
 
-                    $div.find("ul.errorlist").remove();
                     $div.append($ul);
-
-
 
                 });
 

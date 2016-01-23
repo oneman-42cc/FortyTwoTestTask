@@ -59,7 +59,14 @@ class HomeView(generic.DetailView):
             In this case it is first object of Profile.
         """
 
-        return Profile.objects.first()
+        profile_ = Profile.objects.first()
+
+        # Before present a photo check or it exist on the server,
+        # to avoid showing broken image.
+        if profile_ and not profile_.photo_exist_onserver():
+            profile_.photo = ""
+
+        return profile_
 
     def get_context_data(self, **kwargs):
 
