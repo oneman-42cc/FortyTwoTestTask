@@ -77,8 +77,11 @@ class HomePageTest(TestCase):
         """Test to check or present photo on home page."""
 
         profile_ = Profile.objects.first()
-        if profile_.photo_exist_onserver():
-            self.assertContains(self.response, profile_.photo.url)
+        profile_.set_temporary_photo()
+
+        response = response = self.client.get(reverse("home"))
+
+        self.assertContains(response, profile_.photo.url)
 
 
 class RequestsPageTest(TestCase):
@@ -286,3 +289,27 @@ class ProfileEditPageTest(TestCase):
             form.errors["last_name"][0],
             "This field is required.",
         )
+
+    def test_or_update_profile_after_save_form(self):
+
+        """Test to check or update profile data after form submition."""
+
+        profile_ = Profile.objects.first()
+        data_ = profile_.__dict__
+
+        self.assertEqual(profile_.first_name, "One")
+        self.assertEqual(profile_.last_name, "Man")
+
+        # Change some data.
+        data_["first_name"] = "One.Changed"
+        data_["last_name"] = "Man.Changed"
+
+        form = ProfileModelForm(data=profile_.__dict__, files={})
+        # Make a photo field not required, because it may be a error
+        # during save whan there is not file on server.
+        form.fields["photo"].required = False
+        form.save()
+
+        # Chacke again.
+        self.assertEqual(profile_.first_name, "One.Changed")
+        self.assertEqual(profile_.last_name, "Man.Changed")
