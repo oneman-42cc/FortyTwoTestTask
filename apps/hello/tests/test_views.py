@@ -4,23 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
 from hello.models import Profile
 from hello.forms import ProfileModelForm
-
-
-class HelloAppTests(object):
-
-    """It is a helper class for tsting of hello app."""
-
-    @classmethod
-    def authorize_admin(self, instance):
-
-        """Helper method which authorize admin on the site."""
-
-        # Authorize user admin.
-        instance.client.post(
-            reverse("login"),
-            {"username": "admin", "password": "admin"},
-        )
-        return instance.client.get(reverse("edit"))
+from hello.tests.units import HelloAppTests
 
 
 class HomePageTest(TestCase):
@@ -95,9 +79,10 @@ class HomePageTest(TestCase):
         """Test to check or present photo on home page."""
 
         profile_ = Profile.objects.first()
-        profile_.set_temporary_photo()
+        HelloAppTests.set_temporary_photo(profile_)
+        # profile_.set_temporary_photo()
 
-        response = response = self.client.get(reverse("home"))
+        response = self.client.get(reverse("home"))
         self.assertContains(response, profile_.photo.url)
 
     def test_present_admin_edit_link(self):
