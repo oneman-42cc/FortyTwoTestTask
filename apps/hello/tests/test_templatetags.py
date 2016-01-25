@@ -40,9 +40,10 @@ class EditLinkTagTest(TestCase):
         # Create empty context.
         context_ = Context({})
 
-        # Render template. Must be exeption.
-        with self.assertRaises(TemplateSyntaxError):
-            template_.render(context_)
+        # Render a template.
+        rendered = template_.render(context_)
+
+        self.assertEqual(rendered, "")
 
     def test_render_tag_without_param_object(self):
 

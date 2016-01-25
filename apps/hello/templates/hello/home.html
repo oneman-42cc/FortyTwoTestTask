@@ -1,8 +1,13 @@
 {% extends "base.html" %}
+{% load hello %}
 
 {% block body_id %}page-home{% endblock %}
 
 {% block title %}42 Coffee Cups Test Assignment{%endblock%}
+
+{% block auth %}
+    <br/>{% edit_link profile %}
+{% endblock auth %}
 
 {% block content %}
 

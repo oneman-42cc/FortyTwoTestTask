@@ -29,11 +29,7 @@ class EditLinkTag(template.Node):
         instance = self.object_.resolve(context)
 
         if not instance:
-            raise template.TemplateSyntaxError(
-                """Second argument in %r tag must be a instance of object.
-                    Pass correct context into template.
-                """ % self.tokens[0]
-            )
+            return ""
 
         type_ = ContentType.objects.get_for_model(instance.__class__)
 
