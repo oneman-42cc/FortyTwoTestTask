@@ -58,9 +58,19 @@ class Profile(models.Model):
 
     def set_temporary_photo(self):
 
+        """This method set a temporary image as a photo of profile. Use this
+            method in general in tests.
+        """
+
+        image_ = self.get_temporary_photo()
+
+        self.photo = image_.name
+        self.save()
+
+    def get_temporary_photo(self, pil=False):
+
         """This method generates a temporary image, which load from
-            fixtures and sets it as photo of profile. Use this method in
-            general in tests.
+            fixtures. Use this method in general in tests.
             A temporary image has dimensions of 512x512px and extension
             of png.
         """
@@ -85,8 +95,7 @@ class Profile(models.Model):
                 content_type="image/png",
             )
 
-            self.photo = image_.name
-            self.save()
+            return Image.open(image_) if pil else image_
 
 
 class Request(models.Model):

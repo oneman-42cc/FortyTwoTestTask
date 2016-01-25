@@ -80,7 +80,6 @@ class HomePageTest(TestCase):
         profile_.set_temporary_photo()
 
         response = response = self.client.get(reverse("home"))
-
         self.assertContains(response, profile_.photo.url)
 
 
@@ -304,11 +303,7 @@ class ProfileEditPageTest(TestCase):
         data_["first_name"] = "One.Changed"
         data_["last_name"] = "Man.Changed"
 
-        form = ProfileModelForm(data=profile_.__dict__, files={})
-        # Make a photo field not required, because it may be a error
-        # during save whan there is not file on server.
-        form.fields["photo"].required = False
-        form.save()
+        self.client.put(reverse("edit"), data_)
 
         # Chacke again.
         self.assertEqual(profile_.first_name, "One.Changed")
