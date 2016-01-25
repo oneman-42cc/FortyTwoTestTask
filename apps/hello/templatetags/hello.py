@@ -26,9 +26,15 @@ class EditLinkTag(template.Node):
 
     def render(self, context):
 
+        user = context.get("user")
         instance = self.object_.resolve(context)
 
+        # If there is not a instance of object return empty string.
         if not instance:
+            return ""
+
+        # For a anonymous users return empty string too.
+        if user and not user.is_authenticated():
             return ""
 
         type_ = ContentType.objects.get_for_model(instance.__class__)
