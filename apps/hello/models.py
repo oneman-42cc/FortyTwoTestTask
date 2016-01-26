@@ -1,11 +1,9 @@
-import json
 import os.path
-import tempfile
 from PIL import Image
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 
 class Profile(models.Model):
@@ -56,47 +54,6 @@ class Profile(models.Model):
 
         return False
 
-    def set_temporary_photo(self):
-
-        """This method set a temporary image as a photo of profile. Use this
-            method in general in tests.
-        """
-
-        image_ = self.get_temporary_photo()
-
-        self.photo = image_.name
-        self.save()
-
-    def get_temporary_photo(self, pil=False):
-
-        """This method generates a temporary image, which load from
-            fixtures. Use this method in general in tests.
-            A temporary image has dimensions of 512x512px and extension
-            of png.
-        """
-
-        # Set path to fixture with photo.
-        fixture = os.path.dirname(__file__) + "/fixtures/temporary_photo.json"
-        # Load and decode.
-        photo = json.load(file(fixture)).get("photo", False)\
-            .strip().decode("base64")
-
-        # Create a temporary file and write to is data from fixtures.
-        with tempfile.NamedTemporaryFile(
-            suffix=".png",
-            delete=False,
-            dir=settings.MEDIA_ROOT,
-        ) as png:
-            png.write(photo)
-            png.seek(0)
-            image_ = SimpleUploadedFile(
-                png.name,
-                png.read(),
-                content_type="image/png",
-            )
-
-            return Image.open(image_) if pil else image_
-
 
 class Request(models.Model):
 
@@ -113,4 +70,35 @@ class Request(models.Model):
         null=True,
     )
     url = models.URLField()
+    date = models.DateTimeField(auto_now=True, auto_now_add=True)
+
+
+class Entry(models.Model):
+
+    """Store information about the any object creation/editing/deletion
+        for any model.
+    """
+
+    class Meta:
+        app_label = "hello"
+        ordering = ["-date"]
+
+    def __unicode__(self):
+        return "Entry: %s | %s" % (self.content_object, self.event)
+
+    EVENTS = (
+        ("creation", "Creation"),
+        ("editing", "Editing"),
+        ("deletion", "Deletion"),
+    )
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.CharField(max_length=256)
+    content_object = generic.GenericForeignKey("content_type", "object_id")
+
+    event = models.CharField(
+        max_length=256,
+        choices=EVENTS,
+        default="creation",
+    )
     date = models.DateTimeField(auto_now=True, auto_now_add=True)

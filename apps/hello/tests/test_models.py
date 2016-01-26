@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.utils import dateparse
 from django.contrib.auth.models import User
-from hello.models import Profile, Request
+from hello.models import Profile, Request, Entry
+from hello.tests.units import HelloAppTests
 
 
 class ModelProfileTest(TestCase):
@@ -36,7 +37,7 @@ class ModelProfileTest(TestCase):
 
         profile_ = Profile.objects.first()
         # Get temp photo. It has demenssions of 512x512px.
-        photo_ = profile_.get_temporary_photo(pil=True)
+        photo_ = HelloAppTests.get_temporary_photo(pil=True)
         # Check size of original image.
         self.assertLessEqual(photo_.width, 512)
         self.assertLessEqual(photo_.height, 512)
@@ -68,4 +69,25 @@ class ModelRequestTest(TestCase):
         self.assertEqual(
             request_.date,
             dateparse.parse_datetime("2016-01-04T17:31:39.112Z"),
+        )
+
+
+class ModelEntryTest(TestCase):
+
+    """Test to check model Entry."""
+
+    fixtures = ["entries_test.json"]
+
+    def test_or_save_entry_to_database(self):
+
+        """Test to verify the model Entry."""
+
+        # First entry is information about profile.
+        entry_ = Entry.objects.get(id=1)
+        profile_ = Profile.objects.first()
+
+        self.assertEqual(entry_.content_object, profile_)
+        self.assertEqual(
+            entry_.date,
+            dateparse.parse_datetime("2016-01-26T00:53:26.420Z"),
         )

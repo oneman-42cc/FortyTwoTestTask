@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load staticfiles %}
+{% load hello %}
 
 {% block body_id %}page-edit{% endblock %}
 
 {% block title %}Edit profile{%endblock%}
+
+{% block auth %}
+    <br/>{% edit_link object %}
+{% endblock auth %}
 
 {% block content %}
 

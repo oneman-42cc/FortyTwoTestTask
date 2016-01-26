@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.utils import dateparse, simplejson
 from django.core.urlresolvers import reverse
+from django.contrib.contenttypes.models import ContentType
 from hello.models import Profile
 from hello.forms import ProfileModelForm
+from hello.tests.units import HelloAppTests
 
 
 class HomePageTest(TestCase):
@@ -77,10 +79,32 @@ class HomePageTest(TestCase):
         """Test to check or present photo on home page."""
 
         profile_ = Profile.objects.first()
-        profile_.set_temporary_photo()
+        HelloAppTests.set_temporary_photo(profile_)
+        # profile_.set_temporary_photo()
 
-        response = response = self.client.get(reverse("home"))
+        response = self.client.get(reverse("home"))
         self.assertContains(response, profile_.photo.url)
+
+    def test_present_admin_edit_link(self):
+
+        """Test to check or no present a admin edit link for anonymous
+            users.
+        """
+
+        profile_ = Profile.objects.first()
+        type_ = ContentType.objects.get_for_model(profile_.__class__)
+
+        # Get admin edit url for profile.
+        admin_url = reverse(
+            "admin:%s_%s_change" % (type_.app_label, type_.model),
+            args=(profile_.id,),
+        )
+        # Must not be a link for anonymous user.
+        self.assertNotContains(self.response, admin_url)
+
+        # Authorise as admin
+        response = HelloAppTests.authorize_admin(self)
+        self.assertContains(response, admin_url)
 
 
 class RequestsPageTest(TestCase):
@@ -195,17 +219,6 @@ class ProfileEditPageTest(TestCase):
 
     """Test to check a view of edit profile page - ProfileEditView."""
 
-    def authorize_admin(self):
-
-        """Helper method which authorize admin on the site."""
-
-        # Authorize user admin.
-        self.client.post(
-            reverse("login"),
-            {"username": "admin", "password": "admin"},
-        )
-        self.response = self.client.get(reverse("edit"))
-
     def test_accessibility_and_template(self):
 
         """This test checks whether available a edit page and uses
@@ -218,21 +231,21 @@ class ProfileEditPageTest(TestCase):
             status_code=302,
         )
 
-        self.authorize_admin()
+        response = HelloAppTests.authorize_admin(self)
 
-        self.assertEqual(self.response.status_code, 200)
-        self.assertTemplateUsed(self.response, "hello/edit.html")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "hello/edit.html")
 
     def test_check_context_data(self):
 
         """Test to check edit profile page."""
 
-        self.authorize_admin()
+        response = HelloAppTests.authorize_admin(self)
         profile_ = Profile.objects.first()
 
-        self.assertEqual(self.response.context["object"], profile_)
+        self.assertEqual(response.context["object"], profile_)
         self.assertEqual(
-            self.response.context["form"].__class__,
+            response.context["form"].__class__,
             ProfileModelForm().__class__
         )
 
@@ -240,10 +253,10 @@ class ProfileEditPageTest(TestCase):
 
         """Test to check initial data of edit profile form."""
 
-        self.authorize_admin()
+        response = HelloAppTests.authorize_admin(self)
 
         profile_ = Profile.objects.first()
-        data_ = self.response.context["form"].initial
+        data_ = response.context["form"].initial
 
         self.assertEqual(data_["email"], profile_.email)
         self.assertEqual(data_["first_name"], profile_.first_name)
