@@ -6,4 +6,4 @@ rm -rf static/*
 tree -p ../uploads
 rm -f ../uploads/*.png
 
-python stupid.py
+./manage.py migrate --list
