@@ -1,5 +1,7 @@
+import sys
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from south.models import MigrationHistory
 from hello.models import Entry
 
 
@@ -31,3 +33,5 @@ def any_model_post_delete(sender, *args, **kwargs):
         content_object=instance,
         event="deletion",
     )
+
+print >> sys.stderr, MigrationHistory.objects.all()
