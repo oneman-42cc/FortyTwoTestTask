@@ -5,3 +5,5 @@ rm -rf static/*
 
 tree -p ../uploads
 rm -f ../uploads/*.png
+
+python manage.py migrate --delete-ghost-migrations
