@@ -1,5 +1,5 @@
 ls
-python manage.py
+python manage.py migrate
 
 cd static && ls && cd ..
 rm -rf static/*
