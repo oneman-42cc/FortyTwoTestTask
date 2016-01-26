@@ -5,5 +5,3 @@ rm -rf static/*
 
 tree -p ../uploads
 rm -f ../uploads/*.png
-
-tree -p apps/hello/migrations

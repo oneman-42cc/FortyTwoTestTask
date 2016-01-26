@@ -2,12 +2,18 @@
 from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
+from south.models import MigrationHistory
 from django.db import models
 
 
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+
+        MigrationHistory.objects.filter(
+            migration="0003_auto__del_field_request_read"
+        ).delete()
+
         # Adding field 'Profile.photo'
         db.add_column(u'hello_profile', 'photo',
                       self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True),
