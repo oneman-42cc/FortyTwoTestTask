@@ -2,6 +2,8 @@ import os.path
 from PIL import Image
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 
 class Profile(models.Model):
@@ -68,4 +70,35 @@ class Request(models.Model):
         null=True,
     )
     url = models.URLField()
+    date = models.DateTimeField(auto_now=True, auto_now_add=True)
+
+
+class Entry(models.Model):
+
+    """Store information about the any object creation/editing/deletion
+        for any model.
+    """
+
+    class Meta:
+        app_label = "hello"
+        ordering = ["-date"]
+
+    def __unicode__(self):
+        return "Entry: %s | %s" % (self.content_object, self.event)
+
+    EVENTS = (
+        ("creation", "Creation"),
+        ("editing", "Editing"),
+        ("deletion", "Deletion"),
+    )
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.CharField(max_length=256)
+    content_object = generic.GenericForeignKey("content_type", "object_id")
+
+    event = models.CharField(
+        max_length=256,
+        choices=EVENTS,
+        default="creation",
+    )
     date = models.DateTimeField(auto_now=True, auto_now_add=True)
