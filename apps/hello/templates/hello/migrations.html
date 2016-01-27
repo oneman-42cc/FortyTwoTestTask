@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block body_id %}page-migrations{% endblock %}
+
+{% block title %}South migrations{%endblock%}
+
+{% block content %}
+    
+    <h1>South migrations</h1>
+    <ul class="breadcrumbs">
+        <li>
+            <a href="{% url 'home' %}">Home</a>
+            <span class="separator">-></span>
+        </li>
+        <li>South migrations</li>
+    </ul>
+
+    {% if object_list %}
+        <table class="rp">
+            <tr>
+                <th>Id</th>
+                <th>App name</th>
+                <th>Migration</th>
+                <th>Applied</th>
+            </tr>
+            {% for ol in object_list %}
+                <tr>
+                    <td>{{ol.id}}</td>
+                    <td>{{ol.app_name}}</td>
+                    <td>{{ol.migration}}</td>
+                    <td>{{ol.applied}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    {{tree1}}
+    {{tree2}}
+
+{% endblock %}
+
+{% block footer %}
+    <a href="{% url 'requests' %}">HTTP requests</a>
+{% endblock footer %}
