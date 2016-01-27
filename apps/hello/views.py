@@ -4,6 +4,7 @@ from django.utils import simplejson
 from django.http import HttpResponse, HttpResponseForbidden
 from django.template.loader import render_to_string
 from django.views import generic
+from south.models import MigrationHistory
 from hello.models import Profile, Request
 
 logger = logging.getLogger("django")
@@ -55,6 +56,12 @@ class RequestsListView(generic.list.ListView):
         logger.debug(context)
 
         return context
+
+
+class MigrationsListView(generic.list.ListView):
+
+    model = MigrationHistory
+    template_name = "hello/migrations.html"
 
 
 class RequestsAsyncView(generic.View):
