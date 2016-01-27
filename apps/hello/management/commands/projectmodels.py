@@ -24,9 +24,11 @@ class Command(BaseCommand):
         for type_ in ContentType.objects.all():
 
             model_ = type_.model_class()
+            mname = str(model_).replace("<class '", "")\
+                .replace("'>", "")
             # Count objects for each model and create output string.
             count = model_._default_manager.count()
-            output = str(model_) + " objects = " + str(count)
+            output = mname + " objects = " + str(count)
 
             if "stdout" in streams:
                 self.stdout.write(output)
