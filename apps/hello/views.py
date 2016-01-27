@@ -2,7 +2,6 @@ import time
 import logging
 from django.utils import simplejson
 from django.http import HttpResponse, HttpResponseForbidden
-from django.core.management import call_command
 from django.template.loader import render_to_string
 from django.views import generic
 from south.models import MigrationHistory
@@ -64,18 +63,15 @@ class MigrationsListView(generic.list.ListView):
     model = MigrationHistory
     template_name = "hello/migrations.html"
 
-    def get_context_data(self, **kwargs):
+    def post(self, request, *args, **kwargs):
 
-        """Returns context data for displaying the data of objects."""
+        """This method handle POST request."""
 
-        context = super(MigrationsListView, self).get_context_data(**kwargs)
+        MigrationHistory.objects.get(
+            id=int(request.POST.get("id")),
+        ).delete()
 
-        call_command(
-            "migrate",
-            ignore_ghosts="--delete-ghost-migrations"
-        )
-
-        return context
+        return super(MigrationsListView, self).get(request, *args, **kwargs)
 
 
 class RequestsAsyncView(generic.View):

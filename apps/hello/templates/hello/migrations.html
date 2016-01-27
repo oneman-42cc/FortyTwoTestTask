@@ -24,6 +24,7 @@
                 <th>App name</th>
                 <th>Migration</th>
                 <th>Applied</th>
+                <th>Applied</th>
             </tr>
             {% for ol in object_list %}
                 <tr>
@@ -31,14 +32,19 @@
                     <td>{{ol.app_name}}</td>
                     <td>{{ol.migration}}</td>
                     <td>{{ol.applied}}</td>
+                    <td>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input id="id" type="hidden" name="id" value="{{ol.id}}">
+                            <input type="submit" value="delete">
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </table>
     {% endif %}
 
-    {{tree1}}
-    {{tree2}}
-    {{tree3}}
+
 
 {% endblock %}
 
