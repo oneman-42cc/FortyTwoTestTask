@@ -2,12 +2,16 @@
 from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
-from django.db import models
+from django.db import models, connection
 
 
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+
+        if 'hello_entry' in connection.introspection.table_names():
+            db.delete_table('hello_entry')
+
         # Adding model 'Entry'
         db.create_table(u'hello_entry', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
