@@ -17,9 +17,11 @@ class projectmodelsCommandTest(TestCase):
         for type_ in ContentType.objects.all():
 
             model_ = type_.model_class()
+            mname = str(model_).replace("<class '", "")\
+                .replace("'>", "")
             # Count objects for each model and create output string.
             count = model_._default_manager.count()
-            models.append(str(model_) + " objects = " + str(count))
+            models.append(mname + " objects = " + str(count))
 
         return models
 
