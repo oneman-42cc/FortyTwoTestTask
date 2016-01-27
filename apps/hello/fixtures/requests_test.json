@@ -4,6 +4,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/", 
+        "priority": 0,
         "date": "2016-01-04T17:31:39.112Z", 
         "user": 1
     }
@@ -13,6 +14,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/requests/", 
+        "priority": 1,
         "date": "2016-01-04T17:31:52.613Z", 
         "user": 1
     }
@@ -22,6 +24,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/admin/", 
+        "priority": 2,
         "date": "2016-01-04T17:32:52.613Z", 
         "user": 1
     }
@@ -31,6 +34,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/", 
+        "priority": 3,
         "date": "2016-01-04T17:33:02.613Z", 
         "user": 1
     }
@@ -40,6 +44,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/", 
+        "priority": 4,
         "date": "2016-01-04T17:33:20.613Z", 
         "user": 1
     }
@@ -49,6 +54,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/", 
+        "priority": 5,
         "date": "2016-01-04T17:33:33.613Z", 
         "user": 1
     }
@@ -58,6 +64,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/admin/", 
+        "priority": 6,
         "date": "2016-01-04T17:34:11.613Z", 
         "user": null
     }
@@ -67,6 +74,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/requests/", 
+        "priority": 7,
         "date": "2016-01-04T17:34:26.613Z", 
         "user": null
     }
@@ -76,6 +84,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/", 
+        "priority": 8,
         "date": "2016-01-04T17:34:43.613Z", 
         "user": null
     }
@@ -85,6 +94,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/requests/", 
+        "priority": 9,
         "date": "2016-01-04T17:35:06.613Z", 
         "user": null
     }
@@ -94,6 +104,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/requests/", 
+        "priority": 10,
         "date": "2016-01-04T17:35:37.613Z", 
         "user": 1
     }
@@ -103,6 +114,7 @@
     "model": "hello.request", 
     "fields": {
         "url": "http://127.0.0.1:8000/admin/", 
+        "priority": 11,
         "date": "2016-01-04T17:35:59.613Z", 
         "user": 1
     }
