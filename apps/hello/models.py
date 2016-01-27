@@ -61,7 +61,7 @@ class Request(models.Model):
 
     class Meta:
         app_label = "hello"
-        ordering = ["-date"]
+        ordering = ["-priority", "-date"]
 
     user = models.ForeignKey(
         User,
@@ -70,6 +70,7 @@ class Request(models.Model):
         null=True,
     )
     url = models.URLField()
+    priority = models.PositiveIntegerField(default=0)
     date = models.DateTimeField(auto_now=True, auto_now_add=True)
 
 
