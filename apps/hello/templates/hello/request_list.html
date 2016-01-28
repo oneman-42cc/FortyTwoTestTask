@@ -4,7 +4,13 @@
         <th>Page URL</th>
         <th>User</th>
         <th>Date</th>
-        <th>Priority</th>
+        <th class="priority" onclick="$.RequestsList('changeOrder', this, {% if order == '-' %}'+'{% else %}'-'{% endif %}); return false;">
+            <span class="order {% if order == '+' %}asc{% else %}desc{% endif %}"></span>
+            Priority
+            <span class="ajax-loader hd">
+                <img src="/static/img/loader.gif">
+            </span>
+        </th>
     </tr>
     {% for ol in object_list %}
         <tr>
