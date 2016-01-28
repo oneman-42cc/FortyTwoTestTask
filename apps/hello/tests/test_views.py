@@ -147,6 +147,8 @@ class RequestsPageTest(TestCase):
 
     def test_or_change_priority(self):
 
+        """Test to chekc or update priority."""
+
         first_ = self.response.context["object_list"][0]
         last_ = self.response.context["object_list"][9]
 
