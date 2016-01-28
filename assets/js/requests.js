@@ -191,7 +191,7 @@
         _NUMBER = 0;
         _TITLE = $("title").text();
 
-        // $.RequestsList();
+        $.RequestsList();
         
     });
 })(jQuery);
