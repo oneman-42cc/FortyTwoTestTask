@@ -114,6 +114,32 @@
 
             },
 
+            changeOrder : function(e, new_order) {
+
+                var
+                    $element = $(e),
+                    $loader = $element.find("span.ajax-loader"),
+                    ajaxData = {
+                        "new-order": new_order,
+                        "event": "change-order",
+                        "csrfmiddlewaretoken": methods.getCookie.apply(this, ["csrftoken"]),
+                    }
+
+                methods.handleLoader.apply( this, [$loader, "show"] );
+
+                _AJAX = $.ajax({
+                    url: "/requests/",
+                    type: "POST",
+                    data: ajaxData,
+                    success: function(data){
+                        // Print info to console.
+                        console.log("Order changed successfully.");
+                        location.reload();
+                    }
+                });
+
+            },
+
             prepareFormData : function (form, string) {
 
                 if (string) {
@@ -165,7 +191,7 @@
         _NUMBER = 0;
         _TITLE = $("title").text();
 
-        $.RequestsList();
+        // $.RequestsList();
         
     });
 })(jQuery);

@@ -152,9 +152,6 @@ class RequestsPageTest(TestCase):
         first_ = self.response.context["object_list"][0]
         last_ = self.response.context["object_list"][9]
 
-        self.assertEqual(first_.priority, 11)
-        self.assertEqual(last_.priority, 2)
-
         # Try change the object_ priority by send AJAX request.
         response = self.client.post(
             reverse("requests"),
@@ -169,6 +166,33 @@ class RequestsPageTest(TestCase):
 
         self.assertEqual(Request.objects.get(id=first_.id).priority, 2)
         self.assertEqual(Request.objects.get(id=last_.id).priority, 11)
+
+    def test_or_change_order(self):
+
+        """Test to check or change the order of requests."""
+
+        # Check current order.
+        self.assertEqual(self.response.context["order"], "-")
+        # Check priority of first item.
+        first_ = self.response.context["object_list"][0]
+        self.assertEqual(first_.priority, 11)
+
+        # Try change the order.
+        response = self.client.post(
+            reverse("requests"),
+            {
+                "new-order": "+",
+                "event": "change-order",
+            },
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        self.assertEqual(response.status_code, 200)
+
+        # Check new oreder.
+        self.assertEqual(response.context["order"], "+")
+        # Check priority of first item.
+        first_ = response.context["object_list"][0]
+        self.assertEqual(first_.priority, 0)
 
 
 class RequestsAsyncPageTest(TestCase):

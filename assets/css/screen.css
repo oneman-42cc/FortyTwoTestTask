@@ -293,6 +293,32 @@ form.profileUpdate .photo input {
 }
 
 /* Page requests. */
+#page-requests .rp th.priority {
+    cursor: pointer;
+}
+#page-requests .rp th.priority .ajax-loader {
+    display: inline-block;
+    margin: 0px 0px -1px 5px;
+}
+#page-requests .rp th.priority .ajax-loader img {
+    max-width: 14px;
+    display: block;
+}
+#page-requests .rp th.priority .order {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: 0 2px;
+    background-size: 12px;
+    margin: 0 0 -3px 0;
+}
+#page-requests .rp th.priority .order.desc {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAOElEQVQ4jWNgGAUM////b/hPPqinxJB6SlxSj803xBqCXTORhuDXTMAQ4jTjMIQ0zWiGkKd5BAEAuJkW+J/eQuMAAAAASUVORK5CYII=');
+}
+#page-requests .rp th.priority .order.asc {
+     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAADtJREFUOI1jYBgFeMH////r////30CJZhggzRA0zaQZgkMzcYYQ0IzfECI1YzeERM2ohpCpGbtLRigAALhDFvgoCWz5AAAAAElFTkSuQmCC');
+}
 #page-requests .rp ul.fields {
     margin: 0;
 }

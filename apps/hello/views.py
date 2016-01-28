@@ -88,7 +88,6 @@ class RequestsListView(generic.list.ListView):
 
     model = Request
     template_name = "hello/requests.html"
-    queryset = Request.objects.all()[0:10]
 
     def get_context_data(self, **kwargs):
 
@@ -96,9 +95,20 @@ class RequestsListView(generic.list.ListView):
 
         logger.debug(self.get_queryset())
         context = super(RequestsListView, self).get_context_data(**kwargs)
+        # Add current order to context.
+        context["order"] = self.request.session.get("requests_order", "-")
+
         logger.debug(context)
 
         return context
+
+    def get_queryset(self):
+
+        """Returns the queryset that will be used to retrieve the object
+            that this view will display.
+        """
+
+        return RequestsListView.get_object_queryset(self.request)
 
     def post(self, request, *args, **kwargs):
 
@@ -108,8 +118,12 @@ class RequestsListView(generic.list.ListView):
             # If it is not AJAX request return 403 error.
             return HttpResponseForbidden()
 
-        if request.POST.get("event") == "priority-update":
+        # Handle AJAX events.
+        event = request.POST.get("event")
+        if event == "priority-update":
             self.priority_update(request.POST)
+        elif event == "change-order":
+            self.change_order(request.POST)
 
         return super(RequestsListView, self).get(request, *args, **kwargs)
 
@@ -150,6 +164,25 @@ class RequestsListView(generic.list.ListView):
 
         Request.objects.filter(priority=new_priority)\
             .update(priority=old_priority)
+
+    def change_order(self, post):
+
+        """This method just update value in the session."""
+
+        self.request.session["requests_order"] = post.get("new-order")
+
+    @classmethod
+    def get_object_queryset(self, request):
+
+        order_ = request.session.get("requests_order", "-")
+
+        if order_ == "+":
+            order_ = ""
+
+        queryset = Request.objects.all()\
+            .order_by("%spriority" % order_, "-date")[0:10]
+
+        return queryset
 
 
 class RequestsAsyncView(generic.View):
@@ -197,23 +230,28 @@ class RequestsAsyncView(generic.View):
                 # and render data.
                 if prev_number < number_:
                     counter += number_ - prev_number
-                    return self.render_data(counter)
+                    return self.render_data(request, counter)
 
                 seconds += 3
                 time.sleep(3)
                 prev_number = number_
 
-        return self.render_data(counter)
+        return self.render_data(request, counter)
 
-    def render_data(self, counter):
+    def render_data(self, request, counter):
 
         """Render data in JSON."""
+
+        context = {
+            "order": request.session.get("requests_order", "-"),
+            "object_list": RequestsListView.get_object_queryset(request),
+        }
 
         data_ = {
             "requests_new": counter if counter > 0 else "",
             "requests_list": render_to_string(
                 "hello/request_list.html",
-                {"object_list": Request.objects.all()[0:10]},
+                context,
             ),
         }
 
