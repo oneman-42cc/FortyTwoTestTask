@@ -100,6 +100,57 @@ class RequestsListView(generic.list.ListView):
 
         return context
 
+    def post(self, request, *args, **kwargs):
+
+        """This method handle POST request."""
+
+        if not request.is_ajax():
+            # If it is not AJAX request return 403 error.
+            return HttpResponseForbidden()
+
+        if request.POST.get("event") == "priority-update":
+            self.priority_update(request.POST)
+
+        return super(RequestsListView, self).get(request, *args, **kwargs)
+
+    def priority_update(self, post):
+
+        """Helper method which hadles AJAX request and
+            update the prioriry of selected object.
+        """
+
+        new_priority = int(post.get("priority"))
+        # Load the instance of object.
+        object_ = Request.objects.get(
+            id=int(post.get("object_id")),
+        )
+        # Fix old priority.
+        old_priority = object_.priority
+
+        if object_.priority == new_priority:
+            return
+
+        # There should be two objects with the same priority.
+        if new_priority != 0:
+            self.reverse_priority_update(new_priority, old_priority)
+
+        # Update priority.
+        object_.priority = new_priority
+        object_.save()
+
+    def reverse_priority_update(self, new_priority, old_priority):
+
+        """This method has the following functions:
+                - searches for the object by proirity parameter
+                - if such object is found, its priority will be updated
+                  to the value transferred in parameter priority
+            That is, this method is implemented rule: there should be two
+            objects with the same priority.
+        """
+
+        Request.objects.filter(priority=new_priority)\
+            .update(priority=old_priority)
+
 
 class RequestsAsyncView(generic.View):
 
@@ -148,8 +199,8 @@ class RequestsAsyncView(generic.View):
                     counter += number_ - prev_number
                     return self.render_data(counter)
 
-                seconds += 1
-                time.sleep(1)
+                seconds += 3
+                time.sleep(3)
                 prev_number = number_
 
         return self.render_data(counter)

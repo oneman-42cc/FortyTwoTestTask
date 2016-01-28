@@ -4,12 +4,26 @@
         <th>Page URL</th>
         <th>User</th>
         <th>Date</th>
+        <th>Priority</th>
     </tr>
-    {% for rq in object_list %}
+    {% for ol in object_list %}
         <tr>
-            <td><a href="{{rq.url}}">{{rq.url}}</a></td>
-            <td>{% if rq.user %}{{rq.user}}{% else %}anonymous{% endif %}</td>
-            <td>{{rq.date|date:"Y-m-d H:i"}}</td>
+            <td><a href="{{ol.url}}">{{ol.url}}</a></td>
+            <td>{% if ol.user %}{{ol.user}}{% else %}anonymous{% endif %}</td>
+            <td>{{ol.date|date:"Y-m-d H:i"}}</td>
+            <td>
+                <form method="post">
+                    <ul class="fields">
+                        <li>
+                            <input id="id_object" type="hidden" name="object_id" value="{{ol.id}}">
+                            <input id="id_priority" type="number" name="priority" value="{{ol.priority}}" onblur="$.RequestsList('savePriority', this);" original-value="{{ol.priority}}" min="0">
+                            <span class="ajax-loader hd">
+                                <img src="/static/img/loader.gif">
+                            </span>
+                        </li>
+                    </ul>
+                </form>
+            </td>
         </tr>
     {% endfor %}
 </table>

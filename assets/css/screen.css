@@ -291,3 +291,25 @@ form.profileUpdate ul.fields > li:not(.photo) > p {
 form.profileUpdate .photo input {
     width: 125%;
 }
+
+/* Page requests. */
+#page-requests .rp ul.fields {
+    margin: 0;
+}
+#page-requests .rp ul.fields li {
+    margin: 0;
+}
+#page-requests .rp ul.fields li input[type="number"] {
+    width: 40px;
+    min-width: 40px;
+    margin: 0;
+    padding: 5px 8px;
+    display: inline-block;
+}
+#page-requests .rp ul.fields li .ajax-loader {
+    display: inline-block;
+    margin: 0px 0px -10px 10px;
+}
+#page-requests .rp ul.fields li .ajax-loader img {
+    display: block;
+}
