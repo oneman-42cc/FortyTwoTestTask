@@ -1,6 +1,6 @@
 from django.forms import ModelForm, ValidationError
 from django.contrib.admin.widgets import AdminDateWidget
-from hello.models import Profile
+from hello.models import Profile, Request
 from hello.widgets import ThumbnailFileInput
 
 
@@ -31,3 +31,12 @@ class ProfileModelForm(ModelForm):
         # Always return the cleaned data, whether you have changed it or
         # not.
         return photo_
+
+
+class RequestModelForm(ModelForm):
+
+    """A form for edit objects of Request."""
+
+    class Meta:
+        model = Request
+        fields = ["priority"]

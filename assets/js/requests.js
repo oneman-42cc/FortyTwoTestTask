@@ -11,8 +11,6 @@
                         // meta title.
                         _NUMBER = 0;
                         methods.updateTitle.apply( this, [true] );
-                        // And abort existing ajax request.
-                        _AJAX.abort();
                     }, 500);
                 });
 
@@ -41,7 +39,6 @@
                     $table = $("table.rp");
 
                 console.log("Start new request.");
-                console.log(_TITLE);
 
                 _AJAX = $.ajax({
                     url: "/requests/async/",
@@ -53,7 +50,6 @@
                     success: function(data){
                         // Print info to console.
                         console.log("Request finished success:");
-                        console.log(data);
                         // Update page meta title - add number new requests.
                         if (data.requests_new) {
                             _NUMBER = data.requests_new
@@ -82,6 +78,74 @@
                     text_ = reset ? _TITLE : ("(" + _NUMBER + ") " + _TITLE);
 
                 $metatitle.text(text_);
+
+            },
+
+            savePriority : function(e) {
+
+                var
+                    $element = $(e),
+                    $form = $element.parents("form"),
+                    $input_priority = $form.find("input[name='priority']"),
+                    originalPriority = $input_priority.attr("original-value"),
+                    $loader = $form.find("span.ajax-loader"),
+                    ajaxData = methods.prepareFormData.apply( this, [$form] );
+
+                // Before send AJAX request check or the priority was changed.
+                if (ajaxData["priority"] == originalPriority) {
+                    console.log("No need to update the priority.");
+                    return true;
+                }
+
+                ajaxData["event"] = "priority-update";
+                ajaxData["csrfmiddlewaretoken"] = methods.getCookie.apply(this, ["csrftoken"]);
+
+                methods.handleLoader.apply( this, [$loader, "show"] );
+
+                _AJAX = $.ajax({
+                    url: "/requests/",
+                    type: "POST",
+                    data: ajaxData,
+                    success: function(data){
+                        // Print info to console.
+                        console.log("Priority updated successfully.");
+                    }
+                });
+
+            },
+
+            prepareFormData : function (form, string) {
+
+                if (string) {
+
+                    var _data = "";
+                    $.each( form.serializeArray(), function( name, field ) {
+                        _data += field.name + "=" + field.value + "&";
+                    });
+
+                    return _data.substring(0, _data.length - 1);
+                }
+
+                var _data = {}
+                $.each( form.serializeArray(), function( name, field ) {
+                    _data[field.name] = field.value;
+                });
+                
+                return _data;
+            },
+
+            handleLoader : function(loader, action) {
+
+                switch(action) {
+                    case "show":
+                        loader.removeClass("hd");
+                        break;
+                    case "hide":
+                        loader.addClass("hd");
+                        break;
+                    default:
+                        loader.addClass("hd");
+                }
 
             },
 

@@ -66,6 +66,7 @@ class ModelRequestTest(TestCase):
 
         self.assertEqual(request_.user, User.objects.get(id=1))
         self.assertEqual(request_.url, "http://127.0.0.1:8000/")
+        self.assertEqual(request_.priority, 0)
         self.assertEqual(
             request_.date,
             dateparse.parse_datetime("2016-01-04T17:31:39.112Z"),

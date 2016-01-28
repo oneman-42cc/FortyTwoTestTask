@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils import dateparse, simplejson
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
-from hello.models import Profile
+from hello.models import Profile, Request
 from hello.forms import ProfileModelForm
 from hello.tests.units import HelloAppTests
 
@@ -133,6 +133,42 @@ class RequestsPageTest(TestCase):
             self.response.context["object_list"].all().count(),
             10,
         )
+
+    def test_check_order_by_priority(self):
+
+        """Test to check or the requests are ordered by priority."""
+
+        first_ = self.response.context["object_list"][0]
+        last_ = self.response.context["object_list"][9]
+
+        # Why 11 and 2? See requests_test.json fixture.
+        self.assertEqual(first_.priority, 11)
+        self.assertEqual(last_.priority, 2)
+
+    def test_or_change_priority(self):
+
+        """Test to chekc or update priority."""
+
+        first_ = self.response.context["object_list"][0]
+        last_ = self.response.context["object_list"][9]
+
+        self.assertEqual(first_.priority, 11)
+        self.assertEqual(last_.priority, 2)
+
+        # Try change the object_ priority by send AJAX request.
+        response = self.client.post(
+            reverse("requests"),
+            {
+                "object_id": first_.id,
+                "priority": 2,
+                "event": "priority-update"
+            },
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(Request.objects.get(id=first_.id).priority, 2)
+        self.assertEqual(Request.objects.get(id=last_.id).priority, 11)
 
 
 class RequestsAsyncPageTest(TestCase):
